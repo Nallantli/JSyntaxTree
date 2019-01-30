@@ -26,6 +26,8 @@ Generally just bracket notation, with some text effects:
 
 Of course, all combinations are acceptable.
 
+(e.g. `$*%_W_O_R_D_S_%*$`)
+
 The program uses the Doulos SIL font (https://software.sil.org/doulos/), so you should probably have that installed. Not entirely sure what Java defaults to.
 
 Will build web interface at some point?
