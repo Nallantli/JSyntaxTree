@@ -5,20 +5,26 @@ import java.awt.*;
 import java.awt.event.*;
  
 public class GUI extends Frame {
-   private TextField tfCount, ofn, fn, fs, sx, sy;
+   private TextField tfCount, ofn, fn, fs, sx, sy, lw;
    private Button btnReset, create;
-   String file_path = null;
+	String file_path = null;
+	String out_file = null;
  
    public GUI () {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {System.exit(0);}
 		});
-      setLayout(new GridLayout(7, 2));
-      tfCount = new TextField("Select a file", 100);
+      setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
+		JPanel j1 = new JPanel();
+		j1.setLayout(new GridLayout(8, 2));
+		add(j1);
+
+      tfCount = new TextField("Select a file", 50);
       tfCount.setEditable(false);
-	  add(tfCount);
+	  j1.add(tfCount);
       btnReset = new Button("Choose Source");
-      add(btnReset);
+      j1.add(btnReset);
       btnReset.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent evt) {
@@ -33,47 +39,90 @@ public class GUI extends Frame {
 			}
          }
 	  });	  
+
+	  ofn = new TextField("Navigate to a folder", 50);
+      ofn.setEditable(false);
+	  j1.add(ofn);
+      btnReset = new Button("Choose Output Folder");
+      j1.add(btnReset);
+      btnReset.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent evt) {
+				JFileChooser chooser = new JFileChooser(); 
+				chooser.setCurrentDirectory(new java.io.File("."));
+				chooser.setDialogTitle("Choose a folder...");
+				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				chooser.setAcceptAllFileFilterUsed(false);
+				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) { 
+					  out_file = chooser.getSelectedFile().getAbsolutePath();
+					  ofn.setText(out_file);
+				  }
+				else {
+				  System.out.println("No Selection ");
+				  }
+         }
+	  });	  
 	  
-	  add(new Label("Output File Name"));
-      ofn = new TextField("OUTPUT.png", 50);
-	  add(ofn);
-
-	  add(new Label("Font Name"));
+	  j1.add(new Label("Font Name"));
 	  fn = new TextField("Doulos SIL", 50);
-	  add(fn);
+	  j1.add(fn);
 
-	  add(new Label("Font Size"));
+	  j1.add(new Label("Font Size"));
 	  fs = new TextField("48", 50);
-	  add(fs);
+	  j1.add(fs);
 
-	  add(new Label("Spacing X"));
+	  j1.add(new Label("Spacing X"));
 	  sx = new TextField("50", 50);
-	  add(sx);
+	  j1.add(sx);
 
-	  add(new Label("Spacing Y"));
+	  j1.add(new Label("Spacing Y"));
 	  sy = new TextField("200", 50);
-	  add(sy);
+	  j1.add(sy);
+
+	  j1.add(new Label("Line Width"));
+	  lw = new TextField("3.0", 50);
+	  j1.add(lw);
+
+	  Checkbox inColor = new Checkbox("Colored");
+	  j1.add(inColor);
+	  Checkbox sScript = new Checkbox("Auto-Subscript");
+	  j1.add(sScript);
 
 	  create = new Button("BUILD");
-      add(create);
+		add(create);
+		
+		JPanel f = new JPanel();
+		add(f);
+
       create.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent evt) {
 			 String[] args = { 
 				 "-i", file_path, 
-				 "-o", ofn.getText(), 
+				 "-o", out_file + "/OUTPUT.png", 
 				 "-f", fn.getText(), 
 				 "-fs", fs.getText(), 
 				 "-sx", sx.getText(), 
-				 "-sy", sy.getText()
+				 "-sy", sy.getText(),
+				 "-l", lw.getText(),
+				 (inColor.getState() ? "-c" : ""),
+				 (sScript.getState() ? "-a" : "")
 			};
-			JSyntaxTree.initialize(args);
+			try {
+				f.removeAll();
+				JSyntaxTree.initialize(args, f);
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+			pack();
          }
 	  });	 
  
       setTitle("Quick-and-dirty GUI");
-      setSize(400, 200);
-      setVisible(true);
+      setSize(100, 100);
+		setVisible(true);
+		setResizable(false);
+		pack();
    }
  
    // The entry main method

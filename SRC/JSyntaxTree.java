@@ -11,6 +11,10 @@ import java.awt.font.*;
 
 import javax.swing.*;
 
+/**
+ * Main class for directing the generation of thre trees - functions as an applet.
+ */
+
 public class JSyntaxTree extends JPanel {
     static int fontSize = 48;
     static int spacingX = 50;
@@ -183,7 +187,7 @@ public class JSyntaxTree extends JPanel {
         Graphics2D cg = bImg.createGraphics();
         paintStatic(cg);
         try {
-                if (ImageIO.write(bImg, output_file.split("\\.")[output_file.split("\\.").length - 1], new File("./" + output_file)))
+                if (ImageIO.write(bImg, output_file.split("\\.")[output_file.split("\\.").length - 1], new File(output_file)))
                 {
                     System.out.println("Saved as: " + output_file);
                 }
@@ -204,20 +208,19 @@ public class JSyntaxTree extends JPanel {
         return null;
     }
 
-    public static void initialize(String args[]) {
+    public static void initialize(String args[], JPanel f) throws Exception {
         String filename = getOption(args, "-i");
         if (filename == null) {
-            System.err.println("File not found!");
-            return;
+            throw new Exception("File not found!");
         }
         boolean instant_quit = false;
 
+        in_color = false;
+        auto_subscript = false;
         if (getOption(args, "-o") != null)
             output_file = getOption(args, "-o");
         if (getOption(args, "-c") != null)
             in_color = true;
-        if (getOption(args, "-q") != null)
-            instant_quit = true;
         if (getOption(args, "-a") != null)
             auto_subscript = true;
         if (getOption(args, "-f") != null)
@@ -238,23 +241,33 @@ public class JSyntaxTree extends JPanel {
         height = NS.getDepth() + border * 2;
         width = NS.getWidth(true) + border * 2;
 
-        if (!instant_quit) {
-            JFrame f = new JFrame("JSyntaxTree");
-            f.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {System.exit(0);}
-            });
+        if (f != null) {
             JPanel jp = new JSyntaxTree();
-            f.getContentPane().add(jp);
             jp.setPreferredSize(new Dimension(width / 2, height / 2));
-            f.pack();
-            f.setVisible(true);
-            f.setResizable(false);
+            f.add(jp);
         }
         save();
     }
  
     public static void main(String args[]) {
-        initialize(args);
+        try {
+            if (getOption(args, "-q") == null) {
+                JFrame f = new JFrame("JSyntaxTree");
+                f.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {System.exit(0);}
+                });
+                JPanel jp = new JPanel();
+                initialize(args, jp);
+                f.getContentPane().add(jp);
+                f.setResizable(false);
+                f.pack();
+                f.setVisible(true);
+            } else {
+                initialize(args, null);
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
     }
  
 }
