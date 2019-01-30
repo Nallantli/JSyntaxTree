@@ -16,12 +16,10 @@ public class JSyntaxTree extends JApplet {
     static int spacingX = 50;
     static int spacingY = 200;
     static int border = 50;
-    static JFrame f;
 
     static String output_file = "OUTPUT.png";
     static String font_name = "Doulos SIL";
-
-    static boolean saved = false;
+    
     static int height = 0;
     static int width = 0;
     static boolean in_color = false;
@@ -49,10 +47,9 @@ public class JSyntaxTree extends JApplet {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        
         g2.setPaint(Color.BLACK);
 
-        paintNode(border - (fontSize / 2), border + (fontSize / 2), g2, NS);
+        paintNode(border, border + fontSize / 2, g2, NS);
     }
 
     public static void paintNode(int _x, int _y, Graphics g, Node n) {
@@ -77,13 +74,13 @@ public class JSyntaxTree extends JApplet {
                 g2.setStroke(stroke);
                 if (in_color)
                     g2.setPaint(Color.BLACK);
-                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), center_x - n.getWidth(true) / 2 + spacingX / 2, _y + spacingY / 2 + font.getSize2D() / 2));               
-                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), center_x + n.getWidth(true) / 2 - spacingX / 2, _y + spacingY / 2 + font.getSize2D() / 2));
+                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), center_x - n.getWidth(true) / 2 + spacingX / 2, _y + spacingY - font.getSize2D()));               
+                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), center_x + n.getWidth(true) / 2 - spacingX / 2, _y + spacingY - font.getSize2D()));
                 g2.draw(
-                    new Line2D.Float(center_x - n.getWidth(true) / 2 + spacingX / 2, _y + spacingY / 2 + font.getSize2D() / 2, center_x + n.getWidth(true) / 2 - spacingX / 2, _y + spacingY / 2 + font.getSize2D() / 2));
+                    new Line2D.Float(center_x - n.getWidth(true) / 2 + spacingX / 2, _y + spacingY - font.getSize2D(), center_x + n.getWidth(true) / 2 - spacingX / 2, _y + spacingY - font.getSize2D()));
                 if (in_color)
                         g2.setPaint(Color.RED);
-                drawCenteredString(center_x, (int)(_y + font.getSize2D() * 1.5 + spacingY / 2), g, n.metadata.substring(0, n.metadata.length() - 1));
+                drawCenteredString(center_x, _y + spacingY, g, n.metadata.substring(0, n.metadata.length() - 1));
             } else {
                 if (in_color)
                     g2.setPaint(Color.RED);
@@ -175,7 +172,6 @@ public class JSyntaxTree extends JApplet {
 
     static public void save()
     {
-        saved = true;
         BufferedImage bImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D cg = bImg.createGraphics();
         paintStatic(cg);
@@ -228,21 +224,21 @@ public class JSyntaxTree extends JApplet {
 
         font = new Font(font_name, Font.PLAIN, fontSize);
         NS = Interpreter.interpret(filename);
-        height = NS.getDepth() + spacingY + border * 2;
-
-        //Graphics2D g2 = new Graphics2D();
-       width = NS.getWidth(true) + border * 2;
+        height = NS.getDepth() + fontSize / 2 + border * 2;
+        width = NS.getWidth(true) + border * 2;
 
         if (!instant_quit) {
-        f = new JFrame("JSyntaxTree");
-        f.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {System.exit(0);}
-        });
-        JApplet applet = new JSyntaxTree();
-        f.getContentPane().add("Center", applet);
-        applet.init();
-        f.setSize(new Dimension(width / 2,height / 2));
-         f.setVisible(true);
+            JFrame f = new JFrame("JSyntaxTree");
+            f.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {System.exit(0);}
+            });
+            JApplet applet = new JSyntaxTree();
+            applet.setPreferredSize(new Dimension(width / 2, height / 2));
+            f.getContentPane().add(applet);
+            applet.init();
+            //f.setSize(new Dimension(width / 2, height / 2));
+            f.pack();
+            f.setVisible(true);
         }
         save();
     }

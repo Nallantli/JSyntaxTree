@@ -36,7 +36,9 @@ public class Node {
 				depth = tent_depth;
 		}
 		if (subNodes.isEmpty()) {
-			return metadata.split("\\\\n").length * JSyntaxTree.fontSize;
+			depth = metadata.split("\\\\n").length * JSyntaxTree.fontSize;
+			if (metadata.charAt(metadata.length() - 1) == '^')
+				depth += JSyntaxTree.spacingY;
 		}
 		return depth;
 	}
