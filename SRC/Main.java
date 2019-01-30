@@ -73,7 +73,7 @@ public class Main extends JApplet {
                 paintNode(x, _y + spacingY, g, sub, font);
                 x+=sub.getWidth() * spacingX;
             }
-        } else {
+        } else if (!n.metadata.isEmpty()) {
             if (n.metadata.charAt(n.metadata.length() - 1) == '^') {
                 g2.setStroke(stroke);
                 if (in_color)
@@ -126,7 +126,7 @@ public class Main extends JApplet {
         s = s.replaceAll("\\*", "");
         s = s.replaceAll("\\%", "");
         s = s.replaceAll("\\$", "");
-        s = s.replaceAll("\\`", "");
+        s = s.replaceAll("\\@", "");
         s = s.replaceAll("\\#", "");
         AttributedString trig = new AttributedString(s);
         trig.addAttribute(TextAttribute.FAMILY, font.getFamily());
@@ -151,7 +151,7 @@ public class Main extends JApplet {
                 ital = !ital;
             } else if (text.charAt(i) == '$') {
                 smal = !smal;
-            } else if (text.charAt(i) == '`') {
+            } else if (text.charAt(i) == '@') {
                 und = !und;
             } else if (text.charAt(i) == '#') {
                 green = !green;

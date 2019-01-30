@@ -22,6 +22,21 @@ public class Interpreter {
 		tokens.push("");
 		int mode = 0;
 		for (char c : total.toCharArray()) {
+			if (mode == 3) {
+				if (c == '`') {
+					mode = 0;
+				} else {
+					String s = tokens.pop();
+					s = s.concat(Character.toString(c));
+					tokens.push(s);
+				}
+				continue;
+			}
+			if (c == '`') {
+				mode = 3;
+				tokens.push("");
+				continue;
+			}
 			if (c == '\t' || c == '\n' || c == ' ') {
 				mode = 0;
 				if (!tokens.peek().equals(""))
@@ -45,6 +60,8 @@ public class Interpreter {
 			}
 		}
 
+		System.out.println(tokens);
+
 		Stack<Node> stack = new Stack<Node>();
 
 		for (String token : tokens) {
@@ -67,6 +84,9 @@ public class Interpreter {
 					stack.peek().value = stack.peek().value.concat(" ").concat(token);
 			}
 		}
+
+		System.out.println(stack);
+
 		return stack.pop();
 	}	
 }

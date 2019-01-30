@@ -40,7 +40,9 @@ Generally just bracket notation, with some text effects:
 
 `$WORDS$` smaller font
 
-`\`WORDS\`` underline
+`@WORDS@` underline
+
+If you need to have multiple words in a token, use the ` around the words.
 
 Of course, all combinations are acceptable.
 
