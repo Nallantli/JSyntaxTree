@@ -1,0 +1,1 @@
+[TYPE value 1\nvalue 2]

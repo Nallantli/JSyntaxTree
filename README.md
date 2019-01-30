@@ -28,23 +28,69 @@ OPTIONAL:
 
 `-q`			quits right after generation - no preview window
 
-Syntax:
+`-b SIZE`		adds padding around the tree, defaults to 50px
+
+`-a`			auto-subscript - will add a numerical subscript to node types
+
+# Syntax
 
 Generally just bracket notation, with some text effects:
 
 `\n` newline
 
+`[TYPE value 1\nvalue 2]`
+
+![](/Examples/SyntaxDemo/newline.png)
+
 `_WORDS_` subscript
+
+`[TYPE_SUBTYPE_]`
+
+![](/Examples/SyntaxDemo/subscript.png)
 
 `*WORDS*` bold
 
+`[TYPE *value*]`
+
+![](/Examples/SyntaxDemo/bold.png)
+
 `%WORDS%` italic
+
+`[TYPE %value%]`
+
+![](/Examples/SyntaxDemo/italic.png)
 
 `$WORDS$` smaller font
 
+`[TYPE BIG$SMALL$]`
+
+![](/Examples/SyntaxDemo/small.png)
+
 `@WORDS@` underline
 
+`[TYPE @value@]`
+
+![](/Examples/SyntaxDemo/underline.png)
+
 `#WORDS#` highlight
+
+`[TYPE #value#]`
+
+![](/Examples/SyntaxDemo/highlight.png)
+
+At the end of a node, i.e. the `@` in `[N value value@]` you may place these additions to determine what the connecting bar should be:
+
+`^`	triangle
+
+`[TYPE value^]`
+
+![](/Examples/SyntaxDemo/triangle.png)
+
+`|`	full bar
+
+`[TYPE value|]`
+
+![](/Examples/SyntaxDemo/bar.png)
 
 If you need to have multiple words in a token, use the ` around the words.
 
@@ -56,7 +102,7 @@ The program uses the Doulos SIL font (https://software.sil.org/doulos/), so you 
 
 Will build web interface at some point?
 
-Some Examples:
+# Examples
 
 1. Fictionalization
 ![[[[[[fict][ion]]al]iz]ation]](/Examples/fictionalization.png)

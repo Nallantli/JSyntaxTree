@@ -37,7 +37,7 @@ public class Node {
 		}
 		if (subNodes.isEmpty()) {
 			depth = metadata.split("\\\\n").length * JSyntaxTree.fontSize;
-			if (metadata.charAt(metadata.length() - 1) == '^')
+			if (metadata.charAt(metadata.length() - 1) == '^' || metadata.charAt(metadata.length() - 1) == '|')
 				depth += JSyntaxTree.spacingY;
 			depth += JSyntaxTree.fontSize * 1.5;
 		}
@@ -53,7 +53,7 @@ public class Node {
 			if (g) {
 				int largest = (int)JSyntaxTree.GetWidthOfAttributedString(JSyntaxTree.getTrig(value));
 				String[] arr = metadata.split("\\\\n");
-				if (metadata.charAt(metadata.length() - 1) == '^')
+				if (metadata.charAt(metadata.length() - 1) == '^' || metadata.charAt(metadata.length() - 1) == '|')
 					arr = metadata.substring(0, metadata.length() - 1).split("\\\\n");
 				for (String s : arr) {
 					int temp = (int)JSyntaxTree.GetWidthOfAttributedString(JSyntaxTree.getTrig(s));

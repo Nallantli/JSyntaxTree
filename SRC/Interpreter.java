@@ -64,6 +64,8 @@ public class Interpreter {
 
 		Stack<Node> stack = new Stack<Node>();
 
+		HashMap<String, Integer> instances = new HashMap<String, Integer>(); 
+
 		for (String token : tokens) {
 			if (token.equals("]")) {
 				ArrayList<Node> nl = new ArrayList<Node>();
@@ -72,6 +74,12 @@ public class Interpreter {
 				Collections.reverse(nl);
 				Node f = stack.pop();
 				f.value = f.value.substring(2);
+				if (!instances.containsKey(f.value)) {
+					instances.put(f.value, 0);
+				}
+				instances.put(f.value, instances.get(f.value) + 1);
+				if (JSyntaxTree.auto_subscript)
+					f.value = f.value + "_" + Integer.toString(instances.get(f.value)) + "_";
 				f.subNodes = nl;
 				stack.push(f);
 			} else if (token.equals("[")) {

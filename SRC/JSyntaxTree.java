@@ -23,6 +23,7 @@ public class JSyntaxTree extends JPanel {
     static int height = 0;
     static int width = 0;
     static boolean in_color = false;
+    static boolean auto_subscript = false;
  
     static BasicStroke stroke = new BasicStroke(3.0f);
     public static Font font;
@@ -75,6 +76,14 @@ public class JSyntaxTree extends JPanel {
                 if (in_color)
                         g2.setPaint(Color.RED);
                 drawCenteredString(center_x, _y + spacingY, g, n.metadata.substring(0, n.metadata.length() - 1));
+            } else if (n.metadata.charAt(n.metadata.length() - 1) == '|') {
+                g2.setStroke(stroke);
+                if (in_color)
+                    g2.setPaint(Color.BLACK);
+                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), center_x, _y + spacingY - font.getSize2D()));
+                if (in_color)
+                        g2.setPaint(Color.RED);
+                drawCenteredString(center_x, _y + spacingY, g, n.metadata.substring(0, n.metadata.length() - 1));                
             } else {
                 if (in_color)
                     g2.setPaint(Color.RED);
@@ -209,6 +218,8 @@ public class JSyntaxTree extends JPanel {
             in_color = true;
         if (getOption(args, "-q") != null)
             instant_quit = true;
+        if (getOption(args, "-a") != null)
+            auto_subscript = true;
         if (getOption(args, "-f") != null)
             font_name = getOption(args, "-f");
         if (getOption(args, "-fs") != null)
