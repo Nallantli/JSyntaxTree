@@ -15,8 +15,10 @@ public class Interpreter {
 				total = total.concat(line);
 			br.close();
 		} catch(IOException e) {
-			//..
+            System.err.println("Error openning file: " + filename);
 		}
+
+		total = total.replaceAll("\\\\0", "\u2205");
 
 		Stack<String> tokens = new Stack<String>();
 		tokens.push("");

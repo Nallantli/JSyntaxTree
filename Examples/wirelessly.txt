@@ -1,7 +1,15 @@
 [Adv
 	[Adj
 		[N wire]
-		[%less $*WITHOUT\n$In = N\n$Out = Adj]
+		[%less%
+			$*WITHOUT*$\n
+			$In = N$\n
+			$Out = Adj$
+		]
 	]
-	[%ly $*ADVERBIAL\n$In = Adj\n$Out = Adv]
+	[%ly%
+		$*ADVERBIAL*$\n
+		$In = Adj$\n
+		$Out = Adv$
+	]
 ]

@@ -9,8 +9,15 @@
 						[N ship]
 					]
 					[Adj
-						[V driv\n$drive]
-						[%ing $*GERUND\n$In = V\n$Out = Adj]
+						[V 
+							driv\n
+							$drive$
+						]
+						[%ing%
+							$*GERUND*$\n
+							$In = V$\n
+							$Out = Adj$
+						]
 					]
 				]
 				[N company]

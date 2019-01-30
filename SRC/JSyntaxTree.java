@@ -90,7 +90,7 @@ public class JSyntaxTree extends JPanel {
         TextLayout textLayout = lbm.nextLayout(Integer.MAX_VALUE);
         return textLayout.getBounds().getWidth();
     }
-
+    
     static AttributedString getTrig(String text) {
         String s = text.replaceAll("\\_", "");
         s = s.replaceAll("\\*", "");
@@ -110,8 +110,6 @@ public class JSyntaxTree extends JPanel {
         boolean green = false;
         int b = 0;
         for (int i = 0; i < text.length(); i++) {
-            if (s.length() <= b)
-                break;
 
             if (text.charAt(i) == '_') {
                 sub = !sub;
@@ -126,6 +124,8 @@ public class JSyntaxTree extends JPanel {
             } else if (text.charAt(i) == '#') {
                 green = !green;
             } else {
+                if (s.length() <= b)
+                    continue;
                 if (sub)
                     trig.addAttribute(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB, b, b + 1);
                 if (bold)
@@ -133,7 +133,7 @@ public class JSyntaxTree extends JPanel {
                 if (ital)
                     trig.addAttribute(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE, b, b + 1);
                 if (smal)
-                    trig.addAttribute(TextAttribute.SIZE, (int)((float)fontSize * 0.75), b, b + 1);
+                    trig.addAttribute(TextAttribute.SIZE, (int)((float)fontSize * 0.70), b, b + 1);
                 if (und)
                     trig.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON, b, b + 1);
                 if (green)
@@ -141,6 +141,10 @@ public class JSyntaxTree extends JPanel {
                 b++;
             }
         }
+
+        if (sub || bold || ital || smal || und || green)
+            System.err.println("Warning: unclosed formatting\n" + text);
+
         return trig;
     }
 
@@ -153,7 +157,7 @@ public class JSyntaxTree extends JPanel {
             return;
         }
 
-        if (text.charAt(0) == ' ')
+        while (text.charAt(0) == ' ')
             text = text.substring(1);
 
         AttributedString trig = getTrig(text);
@@ -172,10 +176,9 @@ public class JSyntaxTree extends JPanel {
         try {
                 if (ImageIO.write(bImg, output_file.split("\\.")[output_file.split("\\.").length - 1], new File("./" + output_file)))
                 {
-                    System.out.println("-- saved as: " + output_file);
+                    System.out.println("Saved as: " + output_file);
                 }
         } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
         }
     }
@@ -194,7 +197,10 @@ public class JSyntaxTree extends JPanel {
  
     public static void main(String args[]) {
         String filename = getOption(args, "-i");
-        System.out.println("Drawing tree for: " + filename);
+        if (filename == null) {
+            System.err.println("File not found!");
+            return;
+        }
         boolean instant_quit = false;
 
         if (getOption(args, "-o") != null)
@@ -230,7 +236,6 @@ public class JSyntaxTree extends JPanel {
             f.getContentPane().add(jp);
             jp.setPreferredSize(new Dimension(width / 2, height / 2));
             f.pack();
-            //applet.init();
             f.setVisible(true);
             f.setResizable(false);
         }
