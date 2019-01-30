@@ -49,9 +49,11 @@ public class Main extends JApplet {
 
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
- 
-        //g2.setPaint(fg3D);
-        //g2.fillRect(0, 0, width, height);
+        
+        if (!saved) {
+            g2.setPaint(Color.white);
+            g2.fillRect(0, 0, width, height);
+        }
         g2.setPaint(fg);
         paintNode(spacingX, spacingY, g2, NS, font);
         if (!saved)
@@ -171,15 +173,10 @@ public class Main extends JApplet {
                 b++;
             }
         }
-        // Get the FontMetrics
+        
         FontMetrics metrics = g.getFontMetrics(font);
-        // Determine the X coordinate for the text
         int x = _x - (int)(GetWidthOfAttributedString((Graphics2D)g, trig) / 2);
-        // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
         int y = _y - ((metrics.getHeight()) / 2) + metrics.getAscent();
-        // Set the font
-        //g.setFont(font);
-        // Draw the String
         g.drawString(trig.getIterator(), x, y);
     }
 

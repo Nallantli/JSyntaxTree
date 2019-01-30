@@ -60,8 +60,6 @@ public class Interpreter {
 			}
 		}
 
-		System.out.println(tokens);
-
 		Stack<Node> stack = new Stack<Node>();
 
 		for (String token : tokens) {
@@ -84,8 +82,6 @@ public class Interpreter {
 					stack.peek().value = stack.peek().value.concat(" ").concat(token);
 			}
 		}
-
-		System.out.println(stack);
 
 		return stack.pop();
 	}	
