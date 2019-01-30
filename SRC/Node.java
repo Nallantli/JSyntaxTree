@@ -31,9 +31,12 @@ public class Node {
 	public int getDepth() {
 		int depth = 0;
 		for (Node n : subNodes) {
-			int tent_depth = n.getDepth() + 1;
+			int tent_depth = n.getDepth() + JSyntaxTree.spacingY;
 			if (tent_depth > depth)
 				depth = tent_depth;
+		}
+		if (subNodes.isEmpty()) {
+			return metadata.split("\\\\n").length * JSyntaxTree.fontSize;
 		}
 		return depth;
 	}

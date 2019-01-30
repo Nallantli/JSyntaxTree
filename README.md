@@ -12,7 +12,7 @@ Options:
 
 OPTIONAL:
 
-`-o FILENAME`	output file (include the .png or .jpg)
+`-o FILENAME`	output file (include the .png, .jpg, etc.)
 
 `-f FONTNAME`	font
 
@@ -25,6 +25,8 @@ OPTIONAL:
 `-sy SPACE`		spacing between adjacent nodes vertically
 
 `-c`			DO IT IN COLOR
+
+`-q`			quits right after generation - no preview window
 
 Syntax:
 
@@ -41,6 +43,8 @@ Generally just bracket notation, with some text effects:
 `$WORDS$` smaller font
 
 `@WORDS@` underline
+
+`#WORDS#` highlight
 
 If you need to have multiple words in a token, use the ` around the words.
 

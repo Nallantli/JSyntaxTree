@@ -14,7 +14,8 @@ import javax.swing.*;
 public class JSyntaxTree extends JApplet {
     static int fontSize = 48;
     static int spacingX = 50;
-    static int spacingY = 150;
+    static int spacingY = 200;
+    static int border = 50;
     static JFrame f;
 
     static String output_file = "OUTPUT.png";
@@ -51,7 +52,7 @@ public class JSyntaxTree extends JApplet {
         
         g2.setPaint(Color.BLACK);
 
-        paintNode(spacingX, spacingY, g2, NS);
+        paintNode(border - (fontSize / 2), border + (fontSize / 2), g2, NS);
     }
 
     public static void paintNode(int _x, int _y, Graphics g, Node n) {
@@ -222,13 +223,15 @@ public class JSyntaxTree extends JApplet {
             spacingX = Integer.valueOf(getOption(args, "-sx"));
         if (getOption(args, "-sy") != null)
             spacingY = Integer.valueOf(getOption(args, "-sy"));
+        if (getOption(args, "-b") != null)
+            border = Integer.valueOf(getOption(args, "-b"));
 
         font = new Font(font_name, Font.PLAIN, fontSize);
         NS = Interpreter.interpret(filename);
-        height = (NS.getDepth() + 4) * spacingY;
+        height = NS.getDepth() + spacingY + border * 2;
 
         //Graphics2D g2 = new Graphics2D();
-       width = NS.getWidth(true) + spacingX * 3;
+       width = NS.getWidth(true) + border * 2;
 
         if (!instant_quit) {
         f = new JFrame("JSyntaxTree");
