@@ -17,7 +17,7 @@ public class JSyntaxTree extends JApplet {
     static int spacingY = 100;
     static JFrame f;
 
-    static String output_file = "output_image";
+    static String output_file = "OUTPUT.png";
     static String font_name = "Doulos SIL";
 
     static boolean saved = false;
