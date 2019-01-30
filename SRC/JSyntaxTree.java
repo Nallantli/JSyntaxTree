@@ -12,9 +12,9 @@ import java.awt.font.*;
 import javax.swing.*;
 
 public class JSyntaxTree extends JApplet {
-    static int fontSize = 24;
-    static int spacingX = 25;
-    static int spacingY = 100;
+    static int fontSize = 48;
+    static int spacingX = 50;
+    static int spacingY = 150;
     static JFrame f;
 
     static String output_file = "OUTPUT.png";
@@ -25,7 +25,7 @@ public class JSyntaxTree extends JApplet {
     static int width = 0;
     static boolean in_color = false;
  
-    static BasicStroke stroke = new BasicStroke(2.0f);
+    static BasicStroke stroke = new BasicStroke(3.0f);
     public static Font font;
 
     public static Node NS;
@@ -38,6 +38,7 @@ public class JSyntaxTree extends JApplet {
 
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+        g2.scale(0.5, 0.5);
         g2.setPaint(Color.WHITE);
         g2.fillRect(0, 0, width, height);
         paintStatic(g);
@@ -46,6 +47,7 @@ public class JSyntaxTree extends JApplet {
     static public void paintStatic(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         
         g2.setPaint(Color.BLACK);
 
@@ -202,11 +204,14 @@ public class JSyntaxTree extends JApplet {
     public static void main(String args[]) {
         String filename = getOption(args, "-i");
         System.out.println("Drawing tree for: " + filename);
+        boolean instant_quit = false;
 
         if (getOption(args, "-o") != null)
             output_file = getOption(args, "-o");
         if (getOption(args, "-c") != null)
             in_color = true;
+        if (getOption(args, "-q") != null)
+            instant_quit = true;
         if (getOption(args, "-f") != null)
             font_name = getOption(args, "-f");
         if (getOption(args, "-fs") != null)
@@ -225,6 +230,7 @@ public class JSyntaxTree extends JApplet {
         //Graphics2D g2 = new Graphics2D();
        width = NS.getWidth(true) + spacingX * 3;
 
+        if (!instant_quit) {
         f = new JFrame("JSyntaxTree");
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {System.exit(0);}
@@ -232,8 +238,9 @@ public class JSyntaxTree extends JApplet {
         JApplet applet = new JSyntaxTree();
         f.getContentPane().add("Center", applet);
         applet.init();
-        f.setSize(new Dimension(width,height));
-        f.setVisible(true);
+        f.setSize(new Dimension(width / 2,height / 2));
+         f.setVisible(true);
+        }
         save();
     }
  
