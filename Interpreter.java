@@ -44,7 +44,6 @@ public class Interpreter {
 		}
 
 		Stack<Node> stack = new Stack<Node>();
-		//stack.push(new Node(""));
 
 		for (String token : tokens) {
 			if (token.equals("]")) {

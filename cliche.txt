@@ -1,0 +1,10 @@
+[S
+  [NP JSyntaxTree^]
+  [VP
+    [V generates]
+    [NP 
+      [Adj java-y] 
+      [NP syntax trees^]
+    ]
+  ]
+]

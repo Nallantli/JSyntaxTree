@@ -17,30 +17,24 @@ import javax.swing.*;
  */
  
 public class Main extends JApplet {
-    final static int maxCharHeight = 24;
-    final static int minFontSize = 24;
-    final static int spacingX = 150;
-    final static int spacingY = 100;
+    static int fontSize = 24;
+    static int spacingX = 150;
+    static int spacingY = 100;
+
+    static String output_file = "output_image";
+    static String font_name = "Doulos SIL";
 
     boolean saved = false;
     static int height = 0;
     static int width = 0;
+    static boolean in_color = false;
  
     final static Color bg = Color.white;
     final static Color fg = Color.black;
     final static Color red = Color.red;
     final static Color white = Color.white;
  
-    final static BasicStroke stroke = new BasicStroke(2.0f);
-    final static BasicStroke wideStroke = new BasicStroke(8.0f);
- 
-    final static float dash1[] = {10.0f};
-    final static BasicStroke dashed = new BasicStroke(1.0f, 
-                                                      BasicStroke.CAP_BUTT, 
-                                                      BasicStroke.JOIN_MITER, 
-                                                      10.0f, dash1, 0.0f);
-    Dimension totalSize;
-    FontMetrics fontMetrics;
+    static BasicStroke stroke = new BasicStroke(2.0f);
 
     public static Node NS;
  
@@ -51,16 +45,14 @@ public class Main extends JApplet {
     }
  
     public void paint(Graphics g) {
-        Font font = new Font("Doulos SIL", Font.PLAIN, 24);
+        Font font = new Font(font_name, Font.PLAIN, fontSize);
 
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Dimension d = getSize();
  
-        Color fg3D = Color.white;
- 
-        g2.setPaint(fg3D);
+        //g2.setPaint(fg3D);
         //g2.fillRect(0, 0, width, height);
+        g2.setPaint(fg);
         paintNode(spacingX, spacingY, g2, NS, font);
         if (!saved)
             save();
@@ -68,19 +60,24 @@ public class Main extends JApplet {
 
     public void paintNode(int _x, int _y, Graphics g, Node n, Font font) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setPaint(fg);
+        if (in_color)
+            g2.setPaint(Color.BLUE);
         drawCenteredString(_x + n.getWidth() * spacingX / 2, _y, g, n.value, font);
         if (!n.subNodes.isEmpty()) {            
             int x = _x;
             for (Node sub : n.subNodes) {
-                g2.setStroke(new BasicStroke(2f));
+                g2.setStroke(stroke);
+                if (in_color)
+                    g2.setPaint(Color.BLACK);
                 g2.draw(new Line2D.Float(_x + n.getWidth() * spacingX / 2, _y + font.getSize2D(), x + sub.getWidth() * spacingX / 2, _y + spacingY - font.getSize2D()));
                 paintNode(x, _y + spacingY, g, sub, font);
                 x+=sub.getWidth() * spacingX;
             }
         } else {
             if (n.metadata.charAt(n.metadata.length() - 1) == '^') {
-                g2.setStroke(new BasicStroke(2f));
+                g2.setStroke(stroke);
+                if (in_color)
+                    g2.setPaint(Color.BLACK);
                 g2.draw(new Line2D.Float(_x + n.getWidth() * spacingX / 2, _y + font.getSize2D(), _x + n.getWidth() * spacingX / 2 - (int)GetWidthOfAttributedString(g2, new AttributedString(n.metadata.split("\\\\\n")[0].substring(0, n.metadata.split("\\\\n")[0].length() - 1))) / 2, _y + spacingY / 2 + font.getSize2D() / 2));               
                 g2.draw(new Line2D.Float(_x + n.getWidth() * spacingX / 2, _y + font.getSize2D(), _x + n.getWidth() * spacingX / 2 + (int)GetWidthOfAttributedString(g2, new AttributedString(n.metadata.split("\\\\\n")[0].substring(0, n.metadata.split("\\\\n")[0].length() - 1))) / 2, _y + spacingY / 2 + font.getSize2D() / 2));
                 g2.draw(
@@ -93,10 +90,15 @@ public class Main extends JApplet {
                         _x + n.getWidth() * spacingX / 2 + (int)GetWidthOfAttributedString(g2, new AttributedString(n.metadata.split("\\\\\n")[0].substring(0, n.metadata.split("\\\\n")[0].length() - 1))) / 2, 
                         _y + spacingY / 2 + font.getSize2D() / 2)
                     );
-
+                
+                if (in_color)
+                        g2.setPaint(Color.RED);
                 drawCenteredString(_x + n.getWidth() * spacingX / 2, (int)(_y + font.getSize2D() * 1.5 + spacingY / 2), g, n.metadata.substring(0, n.metadata.length() - 1), font);
-            } else
+            } else {
+                if (in_color)
+                    g2.setPaint(Color.RED);
                 drawCenteredString(_x + n.getWidth() * spacingX / 2, (int)(_y + font.getSize2D() * 1.5), g, n.metadata, font);
+            }
         }
     }
 
@@ -125,6 +127,7 @@ public class Main extends JApplet {
         s = s.replaceAll("\\%", "");
         s = s.replaceAll("\\$", "");
         s = s.replaceAll("\\`", "");
+        s = s.replaceAll("\\#", "");
         AttributedString trig = new AttributedString(s);
         trig.addAttribute(TextAttribute.FAMILY, font.getFamily());
         trig.addAttribute(TextAttribute.SIZE, font.getSize());
@@ -134,6 +137,7 @@ public class Main extends JApplet {
         boolean ital = false;
         boolean smal = false;
         boolean und = false;
+        boolean green = false;
         int b = 0;
         for (int i = 0; i < text.length(); i++) {
             if (s.length() <= b)
@@ -149,6 +153,8 @@ public class Main extends JApplet {
                 smal = !smal;
             } else if (text.charAt(i) == '`') {
                 und = !und;
+            } else if (text.charAt(i) == '#') {
+                green = !green;
             } else {
                 if (sub)
                     trig.addAttribute(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB, b, b + 1);
@@ -157,9 +163,11 @@ public class Main extends JApplet {
                 if (ital)
                     trig.addAttribute(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE, b, b + 1);
                 if (smal)
-                    trig.addAttribute(TextAttribute.SIZE, 18, b, b + 1);
+                    trig.addAttribute(TextAttribute.SIZE, (int)((float)fontSize * 0.75), b, b + 1);
                 if (und)
                     trig.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON, b, b + 1);
+                if (green)
+                    trig.addAttribute(TextAttribute.SWAP_COLORS, TextAttribute.SWAP_COLORS_ON, b, b + 1);
                 b++;
             }
         }
@@ -182,25 +190,48 @@ public class Main extends JApplet {
         Graphics2D cg = bImg.createGraphics();
         paint(cg);
         try {
-                if (ImageIO.write(bImg, "png", new File("./output_image.png")))
+                if (ImageIO.write(bImg, output_file.split("\\.")[output_file.split("\\.").length - 1], new File("./" + output_file)))
                 {
-                    System.out.println("-- saved");
+                    System.out.println("-- saved as: " + output_file);
                 }
         } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
         }
     }
+
+    public static String getOption(String[] args, String o) {
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals(o)) {
+                if (i < args.length - 1)
+                    return args[i + 1];
+                else
+                    return "";
+            }
+        }
+        return null;
+    }
  
     public static void main(String args[]) {
-        if (args.length == 0) {
-            System.out.println("No input file found!");
-            return;
-        } else {
-            System.out.println("Drawing tree for: " + args[0]);
-        }
+        String filename = getOption(args, "-i");
+        System.out.println("Drawing tree for: " + filename);
 
-        NS = Interpreter.interpret(args[0]);
+        if (getOption(args, "-o") != null)
+            output_file = getOption(args, "-o");
+        if (getOption(args, "-c") != null)
+            in_color = true;
+        if (getOption(args, "-f") != null)
+            font_name = getOption(args, "-f");
+        if (getOption(args, "-fs") != null)
+            fontSize = Integer.valueOf(getOption(args, "-fs"));
+        if (getOption(args, "-l") != null)
+            stroke = new BasicStroke(Float.valueOf(getOption(args, "-l")));
+        if (getOption(args, "-sx") != null)
+            spacingX = Integer.valueOf(getOption(args, "-sx"));
+        if (getOption(args, "-sy") != null)
+            spacingY = Integer.valueOf(getOption(args, "-sy"));
+
+        NS = Interpreter.interpret(filename);
         height = (NS.getDepth() + 4) * spacingY;
         width = (NS.getWidth() + 2) * spacingX;
 

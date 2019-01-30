@@ -1,12 +1,28 @@
 # JSyntaxTree
 
-![Output](/output_image.png)
+![Output](/output_color.png)
 
 A small Java program to build syntax trees and morphology trees, according to how my current morphology class prescribes.
 
-First command argument is filename for syntax tree data.
+Options:
 
-e.g. `java Main "test.txt"`
+`-i FILENAME`	input file
+
+OPTIONAL:
+
+`-o FILENAME`	output file (include the .png or .jpg)
+
+`-f FONTNAME`	font
+
+`-fs FONTSIZE`	fontsize
+
+`-l STROKE` 	stroke size (for the lines)
+
+`-sx SPACE`		spacing between adjacent nodes horizontally
+
+`-sy SPACE`		spacing between adjacent nodes vertically
+
+`-c`			DO IT IN COLOR
 
 Syntax:
 
