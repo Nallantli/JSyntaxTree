@@ -10,120 +10,94 @@ import java.text.*;
 import java.awt.font.*;
 
 import javax.swing.*;
- 
-/* 
- * This is like the FontDemo applet in volume 1, except that it 
- * uses the Java 2D APIs to define and render the graphics and text.
- */
- 
-public class Main extends JApplet {
+
+public class JSyntaxTree extends JApplet {
     static int fontSize = 24;
-    static int spacingX = 150;
+    static int spacingX = 25;
     static int spacingY = 100;
+    static JFrame f;
 
     static String output_file = "output_image";
     static String font_name = "Doulos SIL";
 
-    boolean saved = false;
+    static boolean saved = false;
     static int height = 0;
     static int width = 0;
     static boolean in_color = false;
  
-    final static Color bg = Color.white;
-    final static Color fg = Color.black;
-    final static Color red = Color.red;
-    final static Color white = Color.white;
- 
     static BasicStroke stroke = new BasicStroke(2.0f);
+    public static Font font;
 
     public static Node NS;
  
     public void init() {
         //Initialize drawing colors
-        setBackground(bg);
-        setForeground(fg);
+        setBackground(Color.WHITE);
+        setForeground(Color.BLACK);
+    }
+
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setPaint(Color.WHITE);
+        g2.fillRect(0, 0, width, height);
+        paintStatic(g);
     }
  
-    public void paint(Graphics g) {
-        Font font = new Font(font_name, Font.PLAIN, fontSize);
-
+    static public void paintStatic(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
-        if (!saved) {
-            g2.setPaint(Color.white);
-            g2.fillRect(0, 0, width, height);
-        }
-        g2.setPaint(fg);
-        paintNode(spacingX, spacingY, g2, NS, font);
-        if (!saved)
-            save();
+        g2.setPaint(Color.BLACK);
+
+        paintNode(spacingX, spacingY, g2, NS);
     }
 
-    public void paintNode(int _x, int _y, Graphics g, Node n, Font font) {
+    public static void paintNode(int _x, int _y, Graphics g, Node n) {
         Graphics2D g2 = (Graphics2D) g;
         if (in_color)
             g2.setPaint(Color.BLUE);
-        drawCenteredString(_x + n.getWidth() * spacingX / 2, _y, g, n.value, font);
-        if (!n.subNodes.isEmpty()) {            
+
+        int center_x = _x + n.getWidth(true) / 2;
+        drawCenteredString(center_x, _y, g, n.value);
+        if (!n.subNodes.isEmpty()) {
             int x = _x;
             for (Node sub : n.subNodes) {
                 g2.setStroke(stroke);
                 if (in_color)
                     g2.setPaint(Color.BLACK);
-                g2.draw(new Line2D.Float(_x + n.getWidth() * spacingX / 2, _y + font.getSize2D(), x + sub.getWidth() * spacingX / 2, _y + spacingY - font.getSize2D()));
-                paintNode(x, _y + spacingY, g, sub, font);
-                x+=sub.getWidth() * spacingX;
+                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), x + sub.getWidth(true) / 2, _y + spacingY - font.getSize2D()));
+                paintNode(x, _y + spacingY, g, sub);
+                x+=sub.getWidth(true);
             }
         } else if (!n.metadata.isEmpty()) {
             if (n.metadata.charAt(n.metadata.length() - 1) == '^') {
                 g2.setStroke(stroke);
                 if (in_color)
                     g2.setPaint(Color.BLACK);
-                g2.draw(new Line2D.Float(_x + n.getWidth() * spacingX / 2, _y + font.getSize2D(), _x + n.getWidth() * spacingX / 2 - (int)GetWidthOfAttributedString(g2, new AttributedString(n.metadata.split("\\\\\n")[0].substring(0, n.metadata.split("\\\\n")[0].length() - 1))) / 2, _y + spacingY / 2 + font.getSize2D() / 2));               
-                g2.draw(new Line2D.Float(_x + n.getWidth() * spacingX / 2, _y + font.getSize2D(), _x + n.getWidth() * spacingX / 2 + (int)GetWidthOfAttributedString(g2, new AttributedString(n.metadata.split("\\\\\n")[0].substring(0, n.metadata.split("\\\\n")[0].length() - 1))) / 2, _y + spacingY / 2 + font.getSize2D() / 2));
+                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), center_x - n.getWidth(true) / 2 + spacingX / 2, _y + spacingY / 2 + font.getSize2D() / 2));               
+                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), center_x + n.getWidth(true) / 2 - spacingX / 2, _y + spacingY / 2 + font.getSize2D() / 2));
                 g2.draw(
-                    new Line2D.Float(
-                        _x + n.getWidth() * spacingX / 2 - (int)GetWidthOfAttributedString(
-                            g2, 
-                            new AttributedString(n.metadata.split("\\\\\n")[0].substring(0, n.metadata.split("\\\\n")[0].length() - 1))
-                            ) / 2, 
-                        _y + spacingY / 2 + font.getSize2D() / 2,  
-                        _x + n.getWidth() * spacingX / 2 + (int)GetWidthOfAttributedString(g2, new AttributedString(n.metadata.split("\\\\\n")[0].substring(0, n.metadata.split("\\\\n")[0].length() - 1))) / 2, 
-                        _y + spacingY / 2 + font.getSize2D() / 2)
-                    );
-                
+                    new Line2D.Float(center_x - n.getWidth(true) / 2 + spacingX / 2, _y + spacingY / 2 + font.getSize2D() / 2, center_x + n.getWidth(true) / 2 - spacingX / 2, _y + spacingY / 2 + font.getSize2D() / 2));
                 if (in_color)
                         g2.setPaint(Color.RED);
-                drawCenteredString(_x + n.getWidth() * spacingX / 2, (int)(_y + font.getSize2D() * 1.5 + spacingY / 2), g, n.metadata.substring(0, n.metadata.length() - 1), font);
+                drawCenteredString(center_x, (int)(_y + font.getSize2D() * 1.5 + spacingY / 2), g, n.metadata.substring(0, n.metadata.length() - 1));
             } else {
                 if (in_color)
                     g2.setPaint(Color.RED);
-                drawCenteredString(_x + n.getWidth() * spacingX / 2, (int)(_y + font.getSize2D() * 1.5), g, n.metadata, font);
+                drawCenteredString(center_x, (int)(_y + font.getSize2D() * 1.5), g, n.metadata);
             }
         }
     }
 
-    double GetWidthOfAttributedString(Graphics2D graphics2D, AttributedString attributedString) {
+    static double GetWidthOfAttributedString(AttributedString attributedString) {
         AttributedCharacterIterator characterIterator = attributedString.getIterator();
-        FontRenderContext fontRenderContext = graphics2D.getFontRenderContext();
+        FontRenderContext fontRenderContext = new FontRenderContext(new AffineTransform(), true, true);
         LineBreakMeasurer lbm = new LineBreakMeasurer(characterIterator, fontRenderContext);
         TextLayout textLayout = lbm.nextLayout(Integer.MAX_VALUE);
         return textLayout.getBounds().getWidth();
     }
 
-    public void drawCenteredString(int _x, int _y, Graphics g, String text, Font font) {
-        String[] arr = text.split("\\\\n");
-        if (arr.length > 1) {
-            for (int i = 0; i < arr.length; i++){
-                drawCenteredString(_x, _y + i * (int)(font.getSize2D() * 1), g, arr[i], font);
-            }
-            return;
-        }
-
-        if (text.charAt(0) == ' ')
-            text = text.substring(1);
-
+    static AttributedString getTrig(String text) {
         String s = text.replaceAll("\\_", "");
         s = s.replaceAll("\\*", "");
         s = s.replaceAll("\\%", "");
@@ -173,19 +147,35 @@ public class Main extends JApplet {
                 b++;
             }
         }
+        return trig;
+    }
+
+    public static void drawCenteredString(int _x, int _y, Graphics g, String text) {
+        String[] arr = text.split("\\\\n");
+        if (arr.length > 1) {
+            for (int i = 0; i < arr.length; i++){
+                drawCenteredString(_x, _y + i * (int)(font.getSize2D() * 1), g, arr[i]);
+            }
+            return;
+        }
+
+        if (text.charAt(0) == ' ')
+            text = text.substring(1);
+
+        AttributedString trig = getTrig(text);
         
         FontMetrics metrics = g.getFontMetrics(font);
-        int x = _x - (int)(GetWidthOfAttributedString((Graphics2D)g, trig) / 2);
+        int x = _x - (int)(GetWidthOfAttributedString(trig) / 2);
         int y = _y - ((metrics.getHeight()) / 2) + metrics.getAscent();
         g.drawString(trig.getIterator(), x, y);
     }
 
-    public void save()
+    static public void save()
     {
         saved = true;
         BufferedImage bImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D cg = bImg.createGraphics();
-        paint(cg);
+        paintStatic(cg);
         try {
                 if (ImageIO.write(bImg, output_file.split("\\.")[output_file.split("\\.").length - 1], new File("./" + output_file)))
                 {
@@ -228,19 +218,23 @@ public class Main extends JApplet {
         if (getOption(args, "-sy") != null)
             spacingY = Integer.valueOf(getOption(args, "-sy"));
 
+        font = new Font(font_name, Font.PLAIN, fontSize);
         NS = Interpreter.interpret(filename);
         height = (NS.getDepth() + 4) * spacingY;
-        width = (NS.getWidth() + 2) * spacingX;
 
-        JFrame f = new JFrame("JSyntaxTree");
+        //Graphics2D g2 = new Graphics2D();
+       width = NS.getWidth(true) + spacingX * 3;
+
+        f = new JFrame("JSyntaxTree");
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {System.exit(0);}
         });
-        JApplet applet = new Main();
+        JApplet applet = new JSyntaxTree();
         f.getContentPane().add("Center", applet);
         applet.init();
         f.setSize(new Dimension(width,height));
         f.setVisible(true);
+        save();
     }
  
 }

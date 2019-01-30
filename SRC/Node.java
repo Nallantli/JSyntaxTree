@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.awt.*;
 
 public class Node {
 	public String metadata;
@@ -21,10 +22,9 @@ public class Node {
 		String s = "[" + value + " ";
 		if (subNodes.isEmpty())
 			s += ": " + metadata;
-		else {
+		else
 			for (Node n : subNodes)
 				s += n.toString();
-		}
 		return s + "]";
 	}
 
@@ -38,23 +38,29 @@ public class Node {
 		return depth;
 	}
 
-	private int countLevel(int i) {
-		if (i == 0)
-			return subNodes.size();
-		int r = 0;
-		for (Node n : subNodes) {
-			r += n.countLevel(i - 1);
-		}
-		return r;
+	public int getWidth() {
+		return getWidth(false);
 	}
 
-	public int getWidth() {
-		if (subNodes.isEmpty())
+	public int getWidth(boolean g) {
+		if (subNodes.isEmpty()) {
+			if (g) {
+				int largest = (int)JSyntaxTree.GetWidthOfAttributedString(JSyntaxTree.getTrig(value));
+				String[] arr = metadata.split("\\\\n");
+				if (metadata.charAt(metadata.length() - 1) == '^')
+					arr = metadata.substring(0, metadata.length() - 1).split("\\\\n");
+				for (String s : arr) {
+					int temp = (int)JSyntaxTree.GetWidthOfAttributedString(JSyntaxTree.getTrig(s));
+					if (largest < temp)
+						largest = temp;
+				}
+				return largest + JSyntaxTree.spacingX;
+			}
 			return 1;
+		}
 		int width = 0;
-		int i = 0;
 		for (Node n : subNodes)
-			width += n.getWidth();
+			width += n.getWidth(g);
 		return width;
 	}
 }

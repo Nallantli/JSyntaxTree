@@ -65,9 +65,8 @@ public class Interpreter {
 		for (String token : tokens) {
 			if (token.equals("]")) {
 				ArrayList<Node> nl = new ArrayList<Node>();
-				while (stack.peek().value.length() < 2 || !stack.peek().value.subSequence(0, 2).equals("$[")) {
+				while (stack.peek().value.length() < 2 || !stack.peek().value.subSequence(0, 2).equals("$["))
 					nl.add(stack.pop());
-				}
 				Collections.reverse(nl);
 				Node f = stack.pop();
 				f.value = f.value.substring(2);
