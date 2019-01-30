@@ -1,0 +1,28 @@
+[N
+	[N
+		[N 
+			[N Danube River^]
+			[N
+				[Adj
+					[N
+						[N steam]
+						[N ship]
+					]
+					[Adj
+						[V driv\n$drive]
+						[%ing $*GERUND\n$In = V\n$Out = Adj]
+					]
+				]
+				[N company]
+			]
+		]
+		[N captain]
+	]
+	[N
+		[N
+			[N cabin]
+			[N door]
+		]
+		[N key]
+	]
+]
