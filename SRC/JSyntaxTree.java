@@ -11,7 +11,7 @@ import java.awt.font.*;
 
 import javax.swing.*;
 
-public class JSyntaxTree extends JApplet {
+public class JSyntaxTree extends JPanel {
     static int fontSize = 48;
     static int spacingX = 50;
     static int spacingY = 200;
@@ -28,12 +28,6 @@ public class JSyntaxTree extends JApplet {
     public static Font font;
 
     public static Node NS;
- 
-    public void init() {
-        //Initialize drawing colors
-        setBackground(Color.WHITE);
-        setForeground(Color.BLACK);
-    }
 
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -224,7 +218,7 @@ public class JSyntaxTree extends JApplet {
 
         font = new Font(font_name, Font.PLAIN, fontSize);
         NS = Interpreter.interpret(filename);
-        height = NS.getDepth() + fontSize / 2 + border * 2;
+        height = NS.getDepth() + border * 2;
         width = NS.getWidth(true) + border * 2;
 
         if (!instant_quit) {
@@ -232,13 +226,13 @@ public class JSyntaxTree extends JApplet {
             f.addWindowListener(new WindowAdapter() {
                 public void windowClosing(WindowEvent e) {System.exit(0);}
             });
-            JApplet applet = new JSyntaxTree();
-            applet.setPreferredSize(new Dimension(width / 2, height / 2));
-            f.getContentPane().add(applet);
-            applet.init();
-            //f.setSize(new Dimension(width / 2, height / 2));
+            JPanel jp = new JSyntaxTree();
+            f.getContentPane().add(jp);
+            jp.setPreferredSize(new Dimension(width / 2, height / 2));
             f.pack();
+            //applet.init();
             f.setVisible(true);
+            f.setResizable(false);
         }
         save();
     }

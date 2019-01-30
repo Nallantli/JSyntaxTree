@@ -39,6 +39,7 @@ public class Node {
 			depth = metadata.split("\\\\n").length * JSyntaxTree.fontSize;
 			if (metadata.charAt(metadata.length() - 1) == '^')
 				depth += JSyntaxTree.spacingY;
+			depth += JSyntaxTree.fontSize * 1.5;
 		}
 		return depth;
 	}
