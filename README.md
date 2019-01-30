@@ -51,3 +51,15 @@ Of course, all combinations are acceptable.
 The program uses the Doulos SIL font (https://software.sil.org/doulos/), so you should probably have that installed. Not entirely sure what Java defaults to.
 
 Will build web interface at some point?
+
+Some Examples:
+
+1. Fictionalization
+![[[[[[fict][ion]]al]iz]ation]](/Examples/fictionalization.png)
+
+2. Disapproval
+![[dis[[[ap][prov]]al]]](/Examples/disapproval.png)
+
+3. あなたはユニコードの書物を使える
+![あなたはユニコードの書物を使える](/Examples/jpn.png)
+If your font has the characters, you can use any unicode characters in data files. (This example uses Unifont)
