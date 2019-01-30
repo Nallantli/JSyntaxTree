@@ -20,6 +20,7 @@ public class JSyntaxTree extends JPanel {
     static int spacingX = 50;
     static int spacingY = 200;
     static int border = 50;
+    static double scale = 1;
 
     static String output_file = "OUTPUT.png";
     static String font_name = "Doulos SIL";
@@ -36,7 +37,7 @@ public class JSyntaxTree extends JPanel {
 
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.scale(0.5, 0.5);
+        g2.scale(scale, scale);
         g2.setPaint(Color.WHITE);
         g2.fillRect(0, 0, width, height);
         paintStatic(g);
@@ -243,7 +244,8 @@ public class JSyntaxTree extends JPanel {
 
         if (f != null) {
             JPanel jp = new JSyntaxTree();
-            jp.setPreferredSize(new Dimension(width / 2, height / 2));
+            scale = 500.0 / Math.max(height, width);
+            jp.setPreferredSize(new Dimension((int)((double)width * scale), (int)((double)height * scale)));
             f.add(jp);
         }
         save();
@@ -251,19 +253,17 @@ public class JSyntaxTree extends JPanel {
  
     public static void main(String args[]) {
         try {
+            JPanel jp = new JPanel();
+            initialize(args, jp);
             if (getOption(args, "-q") == null) {
                 JFrame f = new JFrame("JSyntaxTree");
                 f.addWindowListener(new WindowAdapter() {
                     public void windowClosing(WindowEvent e) {System.exit(0);}
                 });
-                JPanel jp = new JPanel();
-                initialize(args, jp);
                 f.getContentPane().add(jp);
                 f.setResizable(false);
                 f.pack();
                 f.setVisible(true);
-            } else {
-                initialize(args, null);
             }
         } catch (Exception e) {
             System.err.println(e);

@@ -20,7 +20,7 @@ public class GUI extends Frame {
 		j1.setLayout(new GridLayout(8, 2));
 		add(j1);
 
-      tfCount = new TextField("Select a file", 50);
+      tfCount = new TextField("Select a file", 20);
       tfCount.setEditable(false);
 	  j1.add(tfCount);
       btnReset = new Button("Choose Source");
@@ -40,7 +40,7 @@ public class GUI extends Frame {
          }
 	  });	  
 
-	  ofn = new TextField("Navigate to a folder", 50);
+	  ofn = new TextField("Navigate to a folder", 20);
       ofn.setEditable(false);
 	  j1.add(ofn);
       btnReset = new Button("Choose Output Folder");
@@ -64,23 +64,23 @@ public class GUI extends Frame {
 	  });	  
 	  
 	  j1.add(new Label("Font Name"));
-	  fn = new TextField("Doulos SIL", 50);
+	  fn = new TextField("Doulos SIL", 20);
 	  j1.add(fn);
 
 	  j1.add(new Label("Font Size"));
-	  fs = new TextField("48", 50);
+	  fs = new TextField("48", 20);
 	  j1.add(fs);
 
 	  j1.add(new Label("Spacing X"));
-	  sx = new TextField("50", 50);
+	  sx = new TextField("50", 20);
 	  j1.add(sx);
 
 	  j1.add(new Label("Spacing Y"));
-	  sy = new TextField("200", 50);
+	  sy = new TextField("200", 20);
 	  j1.add(sy);
 
 	  j1.add(new Label("Line Width"));
-	  lw = new TextField("3.0", 50);
+	  lw = new TextField("3.0", 20);
 	  j1.add(lw);
 
 	  Checkbox inColor = new Checkbox("Colored");
@@ -118,11 +118,10 @@ public class GUI extends Frame {
          }
 	  });	 
  
-      setTitle("Quick-and-dirty GUI");
-      setSize(100, 100);
+		setTitle("Quick-and-dirty GUI");
+		pack();
 		setVisible(true);
 		setResizable(false);
-		pack();
    }
  
    // The entry main method
