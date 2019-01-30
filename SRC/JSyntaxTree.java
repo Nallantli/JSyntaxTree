@@ -203,8 +203,8 @@ public class JSyntaxTree extends JPanel {
         }
         return null;
     }
- 
-    public static void main(String args[]) {
+
+    public static void initialize(String args[]) {
         String filename = getOption(args, "-i");
         if (filename == null) {
             System.err.println("File not found!");
@@ -251,6 +251,10 @@ public class JSyntaxTree extends JPanel {
             f.setResizable(false);
         }
         save();
+    }
+ 
+    public static void main(String args[]) {
+        initialize(args);
     }
  
 }

@@ -1,0 +1,22 @@
+{
+	"configurations": [
+		{
+			"type": "java",
+			"name": "CodeLens (Launch) - JSyntaxTree",
+			"request": "launch",
+			"mainClass": "JSyntaxTree"
+		},
+		{
+			"type": "java",
+			"name": "CodeLens (Launch) - GUI",
+			"request": "launch",
+			"mainClass": "GUI"
+		},
+		{
+			"type": "java",
+			"name": "CodeLens (Launch) - PickAFile",
+			"request": "launch",
+			"mainClass": "PickAFile"
+		}
+	]
+}

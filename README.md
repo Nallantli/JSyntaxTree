@@ -98,9 +98,11 @@ Of course, all combinations are acceptable.
 
 (e.g. `$*%_W_O_R_D_S_%*$`)
 
-The program uses the Doulos SIL font (https://software.sil.org/doulos/), so you should probably have that installed. Not entirely sure what Java defaults to.
+The program defaults to the Doulos SIL font (https://software.sil.org/doulos/), so you should probably have that installed. Not entirely sure what Java defaults to automatically.
 
 Will build web interface at some point?
+
+Currently there's a shoddy GUI interface I built in like ten minutes but it works so if command lines scare you try that.
 
 # Examples
 
