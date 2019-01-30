@@ -4,6 +4,8 @@
 
 A small Java program to build syntax trees and morphology trees, according to how my current morphology class prescribes.
 
+A basic means to run it can be found with `run.bat`.
+
 Options:
 
 `-i FILENAME`	input file
