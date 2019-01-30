@@ -13,11 +13,16 @@ Syntax:
 Generally just bracket notation, with some text effects:
 
 `\n` newline
+
 `_WORDS_` subscript
+
 `*WORDS*` bold
+
 `%WORDS%` italic
+
 `$WORDS$` smaller font
-``WORDS` underline
+
+`\`WORDS\`` underline
 
 Of course, all combinations are acceptable.
 
