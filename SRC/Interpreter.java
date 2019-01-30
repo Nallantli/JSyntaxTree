@@ -1,13 +1,15 @@
 import java.io.*;
 import java.util.*;
+import java.nio.charset.StandardCharsets;
 
 public class Interpreter {
 	public static Node interpret(String filename) {
 		String total = "";
 
 		try {
-			File file = new File(filename);
-			BufferedReader br = new BufferedReader(new FileReader(file));
+			InputStream bytes = new FileInputStream(filename);
+			Reader chars = new InputStreamReader(bytes, StandardCharsets.UTF_8);
+			BufferedReader br = new BufferedReader(chars);
 			String line;
 			while ((line = br.readLine()) != null) 
 				total = total.concat(line);

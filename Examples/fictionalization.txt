@@ -1,0 +1,13 @@
+[N
+	[V
+		[Adj
+			[N
+				[V fict\n$to feign\n$*Latin %fingō]
+				[%ion $*NOMINALIZER\n$In = V\n$Out = N\n$*Latin %-iō]
+			]
+			[%al $*ADJECTIVAL\n$In = N\n$Out = Adj]
+		]
+		[%iz $*FORMATIVE\n$In = Adj\n$Out = V]
+	]
+	[%ation $*NOMINALIZER\n$In = V\n$Out = N]
+]

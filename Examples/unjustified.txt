@@ -1,0 +1,10 @@
+[Adj
+	[%un $*NEGATION\n$In = Adj\n$Out = Adj]
+	[Adj
+		[V
+			[Adj just]
+			[%ifi $*FORMATIVE\n$In = Adj\n$Out = V]
+		]
+		[%ed $*PARTICIPLE\n$In = V\n$Out = Adj]
+	]
+]
