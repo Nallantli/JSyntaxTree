@@ -4,33 +4,25 @@
 
 A small Java program to build syntax trees and morphology trees, according to how my current morphology class prescribes.
 
-A basic means to run it can be found with `run.bat`.
+Inspired by [yohasebe](https://github.com/yohasebe)'s [RSyntaxTree](https://github.com/yohasebe/rsyntaxtree), which came into frequent use, however I unfortunately was pressed to make something new as the features required for my class surpassed the capabilities his program.
 
-Options:
+A basic means to run it can be found with `RUNGUI.bat`.
 
-`-i FILENAME`	input file
-
-OPTIONAL:
-
-`-o FILENAME`	output file (include the .png, .jpg, etc.)
-
-`-f FONTNAME`	font
-
-`-fs FONTSIZE`	fontsize
-
-`-l STROKE` 	stroke size (for the lines)
-
-`-sx SPACE`		spacing between adjacent nodes horizontally
-
-`-sy SPACE`		spacing between adjacent nodes vertically
-
-`-c`			DO IT IN COLOR
-
-`-q`			quits right after generation - no preview window
-
-`-b SIZE`		adds padding around the tree, defaults to 50px
-
-`-a`			auto-subscript - will add a numerical subscript to node types
+# CLI Options:
+```
+Syntax		Default		Desc
+-i <STRING>	-		input file path (required)
+-o <STRING>	OUTPUT.png	output file path (include the .png, .jpg, etc.)
+-f <STRING>	Doulos SIL	font name
+-fs <INT>	48		font size
+-l <FLOAT>	3.0		stroke size (for the lines)
+-sx <INT>	50		spacing between adjacent nodes horizontally
+-sy <INT>	200		spacing between adjacent nodes vertically
+-c		-		color the tree
+-q		-		quits right after generation - no preview window
+-b <INT>	50		adds padding around the tree
+-a		-		auto-subscript - will add a numerical subscript to node types
+```
 
 # Syntax
 
