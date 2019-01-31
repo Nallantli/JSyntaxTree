@@ -1,0 +1,69 @@
+[CP
+	[C'
+		[C \0]
+		[TP
+			[DP
+				[D'
+					[AdjP
+						[Adj'
+							[Adj
+								[N color]
+								[%less% 
+									$*QUALITY*$\n
+									$In = N$\n
+									$Out = Adj$
+								]
+							]
+						]
+					]
+					[D'
+						[AdjP green^]
+						[D'
+							[NP
+								[N'
+									[N
+										[N idea]
+										[%s%
+											$*PLURAL*$\n
+											$In = N$\n
+											$Out = N$
+										]
+									]
+								]
+							]
+						]
+					]
+				]
+			]
+			[T'
+				[T -$PAST$]
+				[VP
+					[V'
+						[V'
+							[V sleep]
+						]
+						[AP
+							[A'
+								[A
+									[Adj
+										[N furi\n$%fury%$]
+										[%ous%
+											$*QUALITY*$\n
+											$In = N$
+											$Out = Adj$
+										]
+									]
+									[%ly%
+										$*ADVERBAL*$\n
+										$In = Adj$\n
+										$Out = A$
+									]
+								]
+							]
+						]
+					]
+				]
+			]
+		]
+	]
+]

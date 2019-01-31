@@ -3,6 +3,7 @@ package syntax;
 import java.awt.*;
 import java.awt.font.*;
 import java.text.*;
+import java.util.ArrayList;
 import java.awt.geom.*;
 
 public class DrawTree {
@@ -40,20 +41,17 @@ public class DrawTree {
         paintNode(border, border + fontSize / 2, g2, NS);
 	}
 	
-	public void paintNode(int _x, int _y, Graphics2D g2, Node n) {
-        if (in_color)
-            g2.setPaint(Color.BLUE);
-
+	public int paintNode(int _x, int _y, Graphics2D g2, Node n) {        
         int center_x = _x + n.getWidth(this) / 2;
-        drawCenteredString(center_x, _y, g2, n.value);
+
+        ArrayList<Integer> x_vals = new ArrayList<Integer>();
+
         if (!n.subNodes.isEmpty()) {
             int x = _x;
             for (Node sub : n.subNodes) {
                 g2.setStroke(stroke);
-                if (in_color)
-                    g2.setPaint(Color.BLACK);
-                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), x + sub.getWidth(this) / 2, _y + spacingY - font.getSize2D()));
-                paintNode(x, _y + spacingY, g2, sub);
+                //g2.draw(new Line2D.Float(center_x, _y + (int)((float)font.getSize2D() / 1.25), x + sub.getWidth(this) / 2, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));
+                x_vals.add(paintNode(x, _y + spacingY, g2, sub));
                 x+=sub.getWidth(this);
             }
         } else if (!n.metadata.isEmpty()) {
@@ -61,10 +59,10 @@ public class DrawTree {
                 g2.setStroke(stroke);
                 if (in_color)
                     g2.setPaint(Color.BLACK);
-                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), center_x - n.getWidth(this) / 2 + spacingX / 2, _y + spacingY - font.getSize2D()));               
-                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), center_x + n.getWidth(this) / 2 - spacingX / 2, _y + spacingY - font.getSize2D()));
+                g2.draw(new Line2D.Float(center_x, _y + (int)((float)font.getSize2D() / 1.25), center_x - n.getWidth(this) / 2 + spacingX / 2, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));               
+                g2.draw(new Line2D.Float(center_x, _y + (int)((float)font.getSize2D() / 1.25), center_x + n.getWidth(this) / 2 - spacingX / 2, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));
                 g2.draw(
-                    new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2, _y + spacingY - font.getSize2D(), center_x + n.getWidth(this) / 2 - spacingX / 2, _y + spacingY - font.getSize2D()));
+                    new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2, _y + spacingY - (int)((float)font.getSize2D() / 1.25), center_x + n.getWidth(this) / 2 - spacingX / 2, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));
                 if (in_color)
                         g2.setPaint(Color.RED);
                 drawCenteredString(center_x, _y + spacingY, g2, n.metadata.substring(0, n.metadata.length() - 1));
@@ -72,7 +70,7 @@ public class DrawTree {
                 g2.setStroke(stroke);
                 if (in_color)
                     g2.setPaint(Color.BLACK);
-                g2.draw(new Line2D.Float(center_x, _y + font.getSize2D(), center_x, _y + spacingY - font.getSize2D()));
+                g2.draw(new Line2D.Float(center_x, _y + (int)((float)font.getSize2D() / 1.25), center_x, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));
                 if (in_color)
                         g2.setPaint(Color.RED);
                 drawCenteredString(center_x, _y + spacingY, g2, n.metadata.substring(0, n.metadata.length() - 1));                
@@ -82,6 +80,23 @@ public class DrawTree {
                 drawCenteredString(center_x, (int)(_y + font.getSize2D() * 1.5), g2, n.metadata);
             }
         }
+
+        int avg_x = center_x;
+        
+        if (!x_vals.isEmpty()) {
+            if (in_color)
+                g2.setPaint(Color.BLACK);
+            avg_x = (x_vals.get(0) + x_vals.get(x_vals.size() - 1)) / 2;
+            for (int x : x_vals) {
+                g2.draw(new Line2D.Float(avg_x, _y + (int)((float)font.getSize2D() / 1.25), x, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));
+            }
+        }
+
+        if (in_color)
+            g2.setPaint(Color.BLUE);
+        drawCenteredString(avg_x, _y, g2, n.value);
+
+        return avg_x;
 	}
 	
 	public void drawCenteredString(int _x, int _y, Graphics2D g2, String text) {
