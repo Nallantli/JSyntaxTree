@@ -7,6 +7,9 @@ public class Node {
 	public String metadata;
 	public String value;
 	public ArrayList<Node> subNodes;
+	public Node parent;
+	public int[] raises = new int[0];
+	public int passes = 0;
 
 	Node(String value) {
 		this.value = value;
@@ -18,6 +21,8 @@ public class Node {
 		this.value = value;
 		this.subNodes = subNodes;
 		this.metadata = "";
+		for (Node n : subNodes)
+			n.parent = this;
 	}
 	
 	public String toString() {
@@ -38,9 +43,11 @@ public class Node {
 				depth = tent_depth;
 		}
 		if (subNodes.isEmpty()) {
-			depth = metadata.split("\\\\n").length * tree.getFontSize();
+			depth += metadata.split("\\\\n").length * tree.getFontSize();
 			if (metadata.charAt(metadata.length() - 1) == '^' || metadata.charAt(metadata.length() - 1) == '|')
 				depth += tree.getSpacingY();
+			else
+				depth += tree.getFontSize() * 1.5;
 			depth += tree.getFontSize() * 1.5;
 		}
 		return depth;
@@ -70,5 +77,61 @@ public class Node {
 		for (Node n : subNodes)
 			width += n.getWidth(tree);
 		return width;
+	}
+
+	public int getTotalX(DrawTree tree) {
+		int pos = 0;
+		Node n = getNeighborLeft();
+		while (n != null) {
+			pos += n.getWidth(tree);
+			n = n.getNeighborLeft();
+		}
+		return pos + getWidth(tree) / 2 + tree.getBorder();
+	}
+
+	public int getTotalY(DrawTree tree) {
+		int depth = 0;
+		/*if (subNodes.isEmpty()) {
+			depth = metadata.split("\\\\n").length * tree.getFontSize();
+			if (metadata.charAt(metadata.length() - 1) == '^' || metadata.charAt(metadata.length() - 1) == '|')
+				depth += tree.getSpacingY();
+			else
+				depth += tree.getFontSize() * 1.5;
+		}*/
+		Node current = parent;
+		while (current != null) {
+			depth += tree.getSpacingY();
+			current = current.parent;
+		}
+
+		return depth;
+	}
+
+	public Node getNeighborLeft() {
+		Node current = this;
+
+		while (current.parent != null) {
+			int i;
+			for (i = 0; i < current.parent.subNodes.size(); i++) {
+				if (current.parent.subNodes.get(i) == current)
+					break;
+			}
+			if (i == 0) {
+				current = current.parent;
+			} else {
+				Node n = current.parent.subNodes.get(i - 1);
+				while (!n.subNodes.isEmpty()) {
+					n = n.subNodes.get(n.subNodes.size() - 1);
+				}
+				return n;
+			}
+		}
+		return null;
+	}
+
+	public void resetPasses() {
+		passes = 0;
+		for (Node n : subNodes)
+			n.resetPasses();
 	}
 }

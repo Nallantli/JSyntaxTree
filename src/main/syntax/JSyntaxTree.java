@@ -132,7 +132,7 @@ public class JSyntaxTree extends JPanel {
         // be drawn as a new panel
         if (f != null) {
             JPanel jp = new JSyntaxTree();
-            scale = 500.0 / Math.max(tree.getHeight(), tree.getWidth());
+            scale = 1000.0 / Math.max(tree.getHeight(), tree.getWidth());
             jp.setPreferredSize(
                     new Dimension((int) ((double) tree.getWidth() * scale), (int) ((double) tree.getHeight() * scale)));
             f.add(jp);

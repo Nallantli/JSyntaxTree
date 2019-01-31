@@ -104,6 +104,9 @@ Currently there's a shoddy GUI interface I built in like ten minutes but it work
 2. Disapproval
 ![[dis[[[ap][prov]]al]]](/Examples/disapproval.png)
 
-3. あなたはユニコードの書物を使える
+3. Colorless green ideas sleep furiously
+![chompy](/Examples/chomsky.png)
+
+4. あなたはユニコードの書物を使える
 ![あなたはユニコードの書物を使える](/Examples/jpn.png)
 If your font has the characters, you can use any unicode characters in data files. (This example uses Unifont)

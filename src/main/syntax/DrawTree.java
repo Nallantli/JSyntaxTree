@@ -29,7 +29,7 @@ public class DrawTree {
         this.in_color = in_color;
         this.stroke = new BasicStroke(strokeWeight);
 
-        height = NS.getDepth(this) + border * 2;
+        height = NS.getDepth(this) + border * 2 + spacingY;
         width = NS.getWidth(this) + border * 2;
     }
 
@@ -37,6 +37,8 @@ public class DrawTree {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2.setPaint(Color.BLACK);
+
+        NS.resetPasses();
 
         paintNode(border, border + fontSize / 2, g2, NS);
 	}
@@ -64,7 +66,7 @@ public class DrawTree {
                 g2.draw(
                     new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2, _y + spacingY - (int)((float)font.getSize2D() / 1.25), center_x + n.getWidth(this) / 2 - spacingX / 2, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));
                 if (in_color)
-                        g2.setPaint(Color.RED);
+                        g2.setPaint(Color.GREEN);
                 drawCenteredString(center_x, _y + spacingY, g2, n.metadata.substring(0, n.metadata.length() - 1));
             } else if (n.metadata.charAt(n.metadata.length() - 1) == '|') {
                 g2.setStroke(stroke);
@@ -72,11 +74,11 @@ public class DrawTree {
                     g2.setPaint(Color.BLACK);
                 g2.draw(new Line2D.Float(center_x, _y + (int)((float)font.getSize2D() / 1.25), center_x, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));
                 if (in_color)
-                        g2.setPaint(Color.RED);
+                        g2.setPaint(Color.GREEN);
                 drawCenteredString(center_x, _y + spacingY, g2, n.metadata.substring(0, n.metadata.length() - 1));                
             } else {
                 if (in_color)
-                    g2.setPaint(Color.RED);
+                    g2.setPaint(Color.GREEN);
                 drawCenteredString(center_x, (int)(_y + font.getSize2D() * 1.5), g2, n.metadata);
             }
         }
@@ -91,13 +93,80 @@ public class DrawTree {
                 g2.draw(new Line2D.Float(avg_x, _y + (int)((float)font.getSize2D() / 1.25), x, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));
             }
         }
+        
+        if (n.raises.length > 0) {
+            for (int i : n.raises) {
+                Node end = n;
+                for (int j = 0; j < Math.abs(i); j++)
+                    end = end.getNeighborLeft();
+                drawMovement(n, end, g2, i > 0);
+            }
+        }
 
         if (in_color)
             g2.setPaint(Color.BLUE);
         drawCenteredString(avg_x, _y, g2, n.value);
 
         return avg_x;
-	}
+    }
+    
+    public void drawMovement(Node start, Node end, Graphics2D g2, boolean inOut) {
+        int shiftY = 0;
+        Node max_current = end;
+        int depth_max = end.getTotalY(this) + end.getDepth(this);
+        Node current = start;
+        while (current != end) {
+            if (depth_max < current.getTotalY(this) + current.getDepth(this)) {
+                depth_max = current.getTotalY(this) + current.getDepth(this);
+                max_current = current;
+            }
+            current = current.getNeighborLeft();
+        }
+
+        shiftY = max_current.passes * fontSize / 2;
+        max_current.passes++;
+        depth_max += shiftY + fontSize;
+
+        int startX = start.getTotalX(this) - fontSize / 4;
+        int endX = end.getTotalX(this) + fontSize / 4;
+        int startY = start.getTotalY(this) + start.getDepth(this);// + (int)((float)font.getSize2D() * 1.5);
+        int endY = end.getTotalY(this) + end.getDepth(this);// + (int)((float)font.getSize2D() * 1.5);
+
+        if (in_color)
+             g2.setPaint(Color.RED);
+        //g2.draw(new QuadCurve2D.Float(startX, startY, (startX + endX) / 2, depth_max + Math.max(spacingY, Math.abs(startY - endY)), endX, endY));
+       g2.draw(new Line2D.Float(startX, startY, startX, depth_max));
+       g2.draw(new Line2D.Float(startX, depth_max, endX, depth_max));
+       g2.draw(new Line2D.Float(endX, endY, endX, depth_max));
+
+        if (inOut) {
+            int[] x_points = {
+                endX,
+                endX - fontSize / 6,
+                endX + fontSize / 6
+            };
+            int[] y_points = {
+                endY,
+                endY + fontSize / 4,
+                endY + fontSize / 4
+            };
+
+            g2.fillPolygon(x_points, y_points, 3);
+        } else {
+            int[] x_points = {
+                startX,
+                startX - fontSize / 6,
+                startX + fontSize / 6
+            };
+            int[] y_points = {
+                startY,
+                startY + fontSize / 4,
+                startY + fontSize / 4
+            };
+
+            g2.fillPolygon(x_points, y_points, 3);
+        }
+    }
 	
 	public void drawCenteredString(int _x, int _y, Graphics2D g2, String text) {
         String[] arr = text.split("\\\\n");
@@ -194,5 +263,9 @@ public class DrawTree {
     
     public int getFontSize() {
         return this.fontSize;
+    }
+
+    public int getBorder() {
+        return this.border;
     }
 }

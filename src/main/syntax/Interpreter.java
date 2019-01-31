@@ -76,6 +76,15 @@ public class Interpreter {
 				Collections.reverse(nl);
 				Node f = stack.pop();
 				f.value = f.value.substring(2);
+
+				if (f.value.split("\\<\\<").length > 1) {
+					String arr[] = f.value.split("\\<\\<");
+					f.value = arr[0];
+					f.raises = new int[arr.length - 1];
+					for (int i = 1; i < arr.length; i++)
+						f.raises[i - 1] = Integer.valueOf(arr[i]);
+				}
+
 				if (!instances.containsKey(f.value)) {
 					instances.put(f.value, 0);
 				}
@@ -83,6 +92,8 @@ public class Interpreter {
 				if (auto_subscript)
 					f.value = f.value + "_" + Integer.toString(instances.get(f.value)) + "_";
 				f.subNodes = nl;
+				for (Node n : nl)
+					n.parent = f;
 				stack.push(f);
 			} else if (token.equals("[")) {
 				stack.push(new Node("$["));
