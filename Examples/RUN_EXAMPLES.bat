@@ -8,4 +8,4 @@ java -jar JSyntaxTree.jar -i Examples/jpn.txt -o Examples/jpn.png -f "Unifont" -
 java -jar JSyntaxTree.jar -i Examples/redecorating.txt -o Examples/redecorating.png -q
 java -jar JSyntaxTree.jar -i Examples/unjustified.txt -o Examples/unjustified.png -q
 java -jar JSyntaxTree.jar -i Examples/wirelessly.txt -o Examples/wirelessly.png -q
-java -jar JSyntaxTree.jar -i Examples/chomsky.txt -o Examples/chomsky.png -q -c
+java -jar JSyntaxTree.jar -i Examples/chomsky.txt -o Examples/chomsky.png -q -a
