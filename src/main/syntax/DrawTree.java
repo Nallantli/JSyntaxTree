@@ -135,9 +135,9 @@ public class DrawTree {
         if (in_color)
              g2.setPaint(Color.RED);
         //g2.draw(new QuadCurve2D.Float(startX, startY, (startX + endX) / 2, depth_max + Math.max(spacingY, Math.abs(startY - endY)), endX, endY));
-       g2.draw(new Line2D.Float(startX, startY, startX, depth_max));
+       g2.draw(new Line2D.Float(startX, startY + fontSize / 7, startX, depth_max));
        g2.draw(new Line2D.Float(startX, depth_max, endX, depth_max));
-       g2.draw(new Line2D.Float(endX, endY, endX, depth_max));
+       g2.draw(new Line2D.Float(endX, endY + fontSize / 7, endX, depth_max));
 
         if (inOut) {
             int[] x_points = {
