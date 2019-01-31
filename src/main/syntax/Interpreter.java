@@ -1,9 +1,11 @@
+package syntax;
+
 import java.io.*;
 import java.util.*;
 import java.nio.charset.StandardCharsets;
 
 public class Interpreter {
-	public static Node interpret(String filename) {
+	public static Node interpret(String filename, boolean auto_subscript) {
 		String total = "";
 
 		try {
@@ -78,7 +80,7 @@ public class Interpreter {
 					instances.put(f.value, 0);
 				}
 				instances.put(f.value, instances.get(f.value) + 1);
-				if (JSyntaxTree.auto_subscript)
+				if (auto_subscript)
 					f.value = f.value + "_" + Integer.toString(instances.get(f.value)) + "_";
 				f.subNodes = nl;
 				stack.push(f);

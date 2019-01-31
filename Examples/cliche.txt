@@ -3,7 +3,7 @@
   [VP
     [V generates]
     [NP 
-      [Adj java-y] 
+      [Adj class-accepted] 
       [NP syntax trees^]
     ]
   ]

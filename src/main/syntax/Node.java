@@ -1,3 +1,5 @@
+package syntax;
+
 import java.util.ArrayList;
 import java.awt.*;
 
@@ -28,45 +30,45 @@ public class Node {
 		return s + "]";
 	}
 
-	public int getDepth() {
+	public int getDepth(DrawTree tree) {
 		int depth = 0;
 		for (Node n : subNodes) {
-			int tent_depth = n.getDepth() + JSyntaxTree.spacingY;
+			int tent_depth = n.getDepth(tree) + tree.getSpacingY();
 			if (tent_depth > depth)
 				depth = tent_depth;
 		}
 		if (subNodes.isEmpty()) {
-			depth = metadata.split("\\\\n").length * JSyntaxTree.fontSize;
+			depth = metadata.split("\\\\n").length * tree.getFontSize();
 			if (metadata.charAt(metadata.length() - 1) == '^' || metadata.charAt(metadata.length() - 1) == '|')
-				depth += JSyntaxTree.spacingY;
-			depth += JSyntaxTree.fontSize * 1.5;
+				depth += tree.getSpacingY();
+			depth += tree.getFontSize() * 1.5;
 		}
 		return depth;
 	}
 
 	public int getWidth() {
-		return getWidth(false);
+		return getWidth(null);
 	}
 
-	public int getWidth(boolean g) {
+	public int getWidth(DrawTree tree) {
 		if (subNodes.isEmpty()) {
-			if (g) {
-				int largest = (int)JSyntaxTree.GetWidthOfAttributedString(JSyntaxTree.getTrig(value));
+			if (tree != null) {
+				int largest = (int)JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(value));
 				String[] arr = metadata.split("\\\\n");
 				if (metadata.charAt(metadata.length() - 1) == '^' || metadata.charAt(metadata.length() - 1) == '|')
 					arr = metadata.substring(0, metadata.length() - 1).split("\\\\n");
 				for (String s : arr) {
-					int temp = (int)JSyntaxTree.GetWidthOfAttributedString(JSyntaxTree.getTrig(s));
+					int temp = (int)JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(s));
 					if (largest < temp)
 						largest = temp;
 				}
-				return largest + JSyntaxTree.spacingX;
+				return largest + tree.getSpacingX();
 			}
 			return 1;
 		}
 		int width = 0;
 		for (Node n : subNodes)
-			width += n.getWidth(g);
+			width += n.getWidth(tree);
 		return width;
 	}
 }
