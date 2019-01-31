@@ -66,7 +66,7 @@ public class DrawTree {
                 g2.draw(
                     new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2, _y + spacingY - (int)((float)font.getSize2D() / 1.25), center_x + n.getWidth(this) / 2 - spacingX / 2, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));
                 if (in_color)
-                        g2.setPaint(Color.GREEN);
+                        g2.setPaint(Color.DARK_GRAY);
                 drawCenteredString(center_x, _y + spacingY, g2, n.metadata.substring(0, n.metadata.length() - 1));
             } else if (n.metadata.charAt(n.metadata.length() - 1) == '|') {
                 g2.setStroke(stroke);
@@ -74,11 +74,11 @@ public class DrawTree {
                     g2.setPaint(Color.BLACK);
                 g2.draw(new Line2D.Float(center_x, _y + (int)((float)font.getSize2D() / 1.25), center_x, _y + spacingY - (int)((float)font.getSize2D() / 1.25)));
                 if (in_color)
-                        g2.setPaint(Color.GREEN);
+                        g2.setPaint(Color.DARK_GRAY);
                 drawCenteredString(center_x, _y + spacingY, g2, n.metadata.substring(0, n.metadata.length() - 1));                
             } else {
                 if (in_color)
-                    g2.setPaint(Color.GREEN);
+                    g2.setPaint(Color.DARK_GRAY);
                 drawCenteredString(center_x, (int)(_y + font.getSize2D() * 1.5), g2, n.metadata);
             }
         }
