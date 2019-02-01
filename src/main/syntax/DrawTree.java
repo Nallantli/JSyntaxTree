@@ -95,11 +95,14 @@ public class DrawTree {
         }
         
         if (n.raises.length > 0) {
-            for (int i : n.raises) {
+            for (int i = 0; i < n.raises.length; i++) {
+                System.out.println("Move:\t" + n.raises[i] + "\t" + n.raisesSUB[i]);
                 Node end = n;
-                for (int j = 0; j < Math.abs(i); j++)
+                for (int j = 0; j < Math.abs(n.raises[i]); j++)
                     end = end.getNeighborLeft();
-                drawMovement(n, end, g2, i > 0);
+                for (int j = 0; j < n.raisesSUB[i]; j++)
+                    end = end.parent;
+                drawMovement(n, end, g2, n.raises[i] > 0);
             }
         }
 
@@ -120,6 +123,16 @@ public class DrawTree {
                 depth_max = current.getTotalY(this) + current.getDepth(this);
                 max_current = current;
             }
+            Node c2 = current;
+            boolean b = false;
+            while (c2 != null) {
+                if (c2 == end){
+                    b = true;
+                    break;
+                }
+                c2 = c2.parent;
+            }
+            if (b) break;
             current = current.getNeighborLeft();
         }
 
@@ -131,6 +144,18 @@ public class DrawTree {
         int endX = end.getTotalX(this) + fontSize / 4;
         int startY = start.getTotalY(this) + start.getDepth(this);// + (int)((float)font.getSize2D() * 1.5);
         int endY = end.getTotalY(this) + end.getDepth(this);// + (int)((float)font.getSize2D() * 1.5);
+
+        if (!start.subNodes.isEmpty()) {
+            g2.draw(new Line2D.Float(startX - start.getWidth(this) / 2, startY, startX - start.getWidth(this) / 2, startY - fontSize / 2));
+            g2.draw(new Line2D.Float(startX + start.getWidth(this) / 2, startY, startX + start.getWidth(this) / 2, startY - fontSize / 2));
+            g2.draw(new Line2D.Float(startX - start.getWidth(this) / 2, startY, startX + start.getWidth(this) / 2, startY));
+        }
+
+        if (!end.subNodes.isEmpty()) {
+            g2.draw(new Line2D.Float(endX - end.getWidth(this) / 2, endY, endX - end.getWidth(this) / 2, endY - fontSize / 2));
+            g2.draw(new Line2D.Float(endX + end.getWidth(this) / 2, endY, endX + end.getWidth(this) / 2, endY - fontSize / 2));
+            g2.draw(new Line2D.Float(endX - end.getWidth(this) / 2, endY, endX + end.getWidth(this) / 2, endY));
+        }
 
         if (in_color)
              g2.setPaint(Color.RED);

@@ -9,6 +9,7 @@ public class Node {
 	public ArrayList<Node> subNodes;
 	public Node parent;
 	public int[] raises = new int[0];
+	public int[] raisesSUB = new int[0];
 	public int passes = 0;
 
 	Node(String value) {

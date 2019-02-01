@@ -81,8 +81,15 @@ public class Interpreter {
 					String arr[] = f.value.split("\\<\\<");
 					f.value = arr[0];
 					f.raises = new int[arr.length - 1];
-					for (int i = 1; i < arr.length; i++)
-						f.raises[i - 1] = Integer.valueOf(arr[i]);
+					f.raisesSUB = new int[arr.length - 1];
+					for (int i = 1; i < arr.length; i++) {
+						String arr2[] = arr[i].split(",");
+						f.raises[i - 1] = Integer.valueOf(arr2[0]);
+						if (arr2.length > 1)
+							f.raisesSUB[i - 1] = Integer.valueOf(arr2[1]);
+						else
+							f.raisesSUB[i - 1] = 0;
+					}
 				}
 
 				if (!instances.containsKey(f.value)) {
