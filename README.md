@@ -44,7 +44,7 @@ The `^` operator (no spaces) indicates that movement stems from that node, and m
 ...
 ```
 
-This syntax makes three individual movement arrow going `1` element over, `2` elements over, and `3` elements over.
+This syntax makes three individual movement arrows going `1` element over, `2` elements over, and `3` elements over.
 
 ```
 ...
