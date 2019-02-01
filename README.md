@@ -2,6 +2,8 @@
 
 ![Output](/Examples/cliche.png)
 
+[Download Here](https://github.com/Agilulfulus/JSyntaxTree/releases/tag/1.0);
+
 A small Java program to build syntax trees and morphology trees, according to how my current morphology class prescribes.
 
 Inspired by [yohasebe](https://github.com/yohasebe)'s [RSyntaxTree](https://github.com/yohasebe/rsyntaxtree), which came into frequent use, however I unfortunately was pressed to make something new as the features required for my class surpassed the capabilities his program.
