@@ -1,10 +1,15 @@
 package syntax;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.text.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.font.TextAttribute;
+import java.awt.geom.Line2D;
+import java.text.AttributedString;
 import java.util.ArrayList;
-import java.awt.geom.*;
 
 public class DrawTree {
     private int fontSize;
@@ -109,10 +114,19 @@ public class DrawTree {
         if (n.raises.length > 0) {
             for (int i = 0; i < n.raises.length; i++) {
                 Node end = n;
-                for (int j = 0; j < Math.abs(n.raises[i]); j++)
+                System.out.println("Moving: " + n.raises[i] + ", " + n.raisesSUB[i]);
+                for (int j = 0; j < Math.abs(n.raises[i]); j++) {
+                    if (end == null)
+                        System.err.println("Cannot find endnode!");
                     end = end.getNeighborLeft();
-                for (int j = 0; j < n.raisesSUB[i]; j++)
+                }
+                for (int j = 0; j < n.raisesSUB[i]; j++) {
+                    if (end == null)
+                        System.err.println("Cannot find endnode!");
                     end = end.parent;
+                }
+                System.out.println(n);
+                System.out.println(end);
                 drawMovement(n, end, g2, n.raises[i] > 0);
             }
         }
@@ -141,6 +155,8 @@ public class DrawTree {
                 }
                 if (!crossed && current.hasAncestor(end))
                     crossed = true;
+                if (current.getNeighborLeft() == null)
+                    break;
                 current = current.getNeighborLeft();
             }
         } else {

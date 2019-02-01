@@ -1,18 +1,40 @@
 package window;
 
-import javax.swing.*;
-import javax.swing.filechooser.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
-import java.util.*;
+import java.awt.Button;
+import java.awt.Checkbox;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 
-import syntax.JSyntaxTree;
-
+import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
+
+import syntax.JSyntaxTree;
 
 /**
  * Small GUI class so to offer a graphical way of selecting options
@@ -24,15 +46,15 @@ public class GUI extends Frame implements ActionListener {
 	private Button btnReset, create;
 	String file_path = null;
 	String out_file = null;
-	JMenuItem undo, redo;  
+	JMenuItem undo, redo;
 	UndoManager undoManager;
 
-	public void actionPerformed(ActionEvent e) {  
-		if(e.getSource()==undo)  
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == undo)
 			undoManager.undo();
-		if(e.getSource()==redo)
+		if (e.getSource() == redo)
 			undoManager.redo();
-		}  
+	}
 
 	public GUI() {
 		addWindowListener(new WindowAdapter() {
@@ -56,8 +78,8 @@ public class GUI extends Frame implements ActionListener {
 
 		JScrollPane scroll = new JScrollPane(main_box);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		
-		JMenuBar mb=new JMenuBar();
+
+		JMenuBar mb = new JMenuBar();
 		undo = new JMenuItem("Undo");
 		redo = new JMenuItem("Redo");
 		undo.addActionListener(this);
@@ -175,7 +197,8 @@ public class GUI extends Frame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				try {
-					BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("TEMP.txt"), StandardCharsets.UTF_8));
+					BufferedWriter bw = new BufferedWriter(
+							new OutputStreamWriter(new FileOutputStream("TEMP.txt"), StandardCharsets.UTF_8));
 					bw.write(main_box.getText());
 					bw.close();
 				} catch (IOException e) {

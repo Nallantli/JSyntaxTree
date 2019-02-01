@@ -1,7 +1,6 @@
 package syntax;
 
 import java.util.ArrayList;
-import java.awt.*;
 
 public class Node {
 	public String metadata;

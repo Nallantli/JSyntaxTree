@@ -136,11 +136,11 @@ Currently there's a shoddy GUI interface I built in like ten minutes but it work
 
 # Examples
 
-1. Fictionalization
-![[[[[[fict][ion]]al]iz]ation]](/Examples/fictionalization.png)
+1. Danube river steam ship driving company captain cabin door
+![danube](/Examples/danube.png)
 
-2. Disapproval
-![[dis[[[ap][prov]]al]]](/Examples/disapproval.png)
+2. Troiae ab Oris
+![troiae_ab_oris](/Examples/troiae_ab_oris.png)
 
 3. Colorless green ideas sleep furiously
 ![chompy](/Examples/chomsky.png)
