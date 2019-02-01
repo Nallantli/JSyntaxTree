@@ -24,7 +24,45 @@ Syntax		Default		Desc
 -a		-		auto-subscript - will add a numerical subscript to node types
 ```
 
-# Syntax
+# Movement Syntax
+
+Movement is fairly simple: it always "moves" in the left direction, however by using a negative number you may switch the arrow.
+
+The main syntax follows:
+
+```
+...
+[TYPE^1 value]
+...
+```
+
+The `^` operator (no spaces) indicates that movement stems from that node, and moves over `1` element to the left. The number can be changed to any number as long as there exists an element for it to move up to. The operator may also be duplicated:
+
+```
+...
+[TYPE^1^2^3 value]
+...
+```
+
+This syntax makes three individual movement arrow going `1` element over, `2` elements over, and `3` elements over.
+
+```
+...
+[TYPE^1,2 value]
+...
+```
+
+Having two numbers seperated by a comma indicates that the movement occurs at one of the parent nodes. Here with `^1,2` the syntax indicates that the movement goes `1` element to the left, and then rises to the node `2` parents above. In this way you may have end nodes with children (see [Examples/chomsky.txt](Examples/chomsky.txt)) for a working example).
+
+As stated previously, negating the movement value will cause the arrow to reverse, so, let's say that one wished to indicate movement right-ward, they would they need to place the `^` operation on the 'end' node and use `-x` steps:
+
+```
+...
+[TYPE^-1,2 value]
+...
+```
+
+# Text Syntax
 
 Generally just bracket notation, with some text effects:
 

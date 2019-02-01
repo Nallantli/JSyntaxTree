@@ -1,0 +1,33 @@
+[TP
+	[DP Jean^]
+	[T'
+		[T -$PAST$]
+		[VP
+			[V'
+				[V^-1 is^]
+				[AdjP
+					[Adj'
+						[Adj likely]
+						[CP
+							[C'
+								[C \0]
+								[TP
+									[DP^5 %t%^]
+									[T'
+										[T to]
+										[VP
+											[DP^2 %t%^]
+											[V'
+												[V leave]
+											]
+										]
+									]
+								]
+							]
+						]
+					]
+				]
+			]
+		]
+	]
+]

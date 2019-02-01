@@ -25,7 +25,7 @@ public class Node {
 		for (Node n : subNodes)
 			n.parent = this;
 	}
-	
+
 	public String toString() {
 		String s = "[" + value + " ";
 		if (subNodes.isEmpty())
@@ -61,12 +61,12 @@ public class Node {
 	public int getWidth(DrawTree tree) {
 		if (subNodes.isEmpty()) {
 			if (tree != null) {
-				int largest = (int)JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(value));
+				int largest = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(value));
 				String[] arr = metadata.split("\\\\n");
 				if (metadata.charAt(metadata.length() - 1) == '^' || metadata.charAt(metadata.length() - 1) == '|')
 					arr = metadata.substring(0, metadata.length() - 1).split("\\\\n");
 				for (String s : arr) {
-					int temp = (int)JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(s));
+					int temp = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(s));
 					if (largest < temp)
 						largest = temp;
 				}
@@ -92,13 +92,12 @@ public class Node {
 
 	public int getTotalY(DrawTree tree) {
 		int depth = 0;
-		/*if (subNodes.isEmpty()) {
-			depth = metadata.split("\\\\n").length * tree.getFontSize();
-			if (metadata.charAt(metadata.length() - 1) == '^' || metadata.charAt(metadata.length() - 1) == '|')
-				depth += tree.getSpacingY();
-			else
-				depth += tree.getFontSize() * 1.5;
-		}*/
+		/*
+		 * if (subNodes.isEmpty()) { depth = metadata.split("\\\\n").length *
+		 * tree.getFontSize(); if (metadata.charAt(metadata.length() - 1) == '^' ||
+		 * metadata.charAt(metadata.length() - 1) == '|') depth += tree.getSpacingY();
+		 * else depth += tree.getFontSize() * 1.5; }
+		 */
 		Node current = parent;
 		while (current != null) {
 			depth += tree.getSpacingY();

@@ -13,11 +13,11 @@ public class Interpreter {
 			Reader chars = new InputStreamReader(bytes, StandardCharsets.UTF_8);
 			BufferedReader br = new BufferedReader(chars);
 			String line;
-			while ((line = br.readLine()) != null) 
+			while ((line = br.readLine()) != null)
 				total = total.concat(line);
 			br.close();
-		} catch(IOException e) {
-            System.err.println("Error openning file: " + filename);
+		} catch (IOException e) {
+			System.err.println("Error openning file: " + filename);
 		}
 
 		total = total.replaceAll("\\\\0", "\u2205");
@@ -47,7 +47,7 @@ public class Interpreter {
 					tokens.push("");
 				continue;
 			}
-			if (c != '[' && c != ']'){
+			if (c != '[' && c != ']') {
 				if (mode == 1) {
 					String s = tokens.pop();
 					s = s.concat(Character.toString(c));
@@ -66,7 +66,7 @@ public class Interpreter {
 
 		Stack<Node> stack = new Stack<Node>();
 
-		HashMap<String, Integer> instances = new HashMap<String, Integer>(); 
+		HashMap<String, Integer> instances = new HashMap<String, Integer>();
 
 		for (String token : tokens) {
 			if (token.equals("]")) {
@@ -77,8 +77,8 @@ public class Interpreter {
 				Node f = stack.pop();
 				f.value = f.value.substring(2);
 
-				if (f.value.split("\\<\\<").length > 1) {
-					String arr[] = f.value.split("\\<\\<");
+				if (f.value.split("\\^").length > 1) {
+					String arr[] = f.value.split("\\^");
 					f.value = arr[0];
 					f.raises = new int[arr.length - 1];
 					f.raisesSUB = new int[arr.length - 1];
@@ -104,7 +104,7 @@ public class Interpreter {
 				stack.push(f);
 			} else if (token.equals("[")) {
 				stack.push(new Node("$["));
-			} else if (!token.isEmpty()){
+			} else if (!token.isEmpty()) {
 				if (stack.peek().value.length() > 2 && stack.peek().value.subSequence(0, 2).equals("$["))
 					stack.peek().metadata = stack.peek().metadata.concat(" ").concat(token);
 				else
@@ -113,5 +113,5 @@ public class Interpreter {
 		}
 
 		return stack.pop();
-	}	
+	}
 }

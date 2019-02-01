@@ -2,6 +2,13 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "CodeLens (Launch) - GUI",
+			"request": "launch",
+			"mainClass": "window.GUI",
+			"projectName": "JSyntaxTree_b8cb8fde"
+		},
+		{
+			"type": "java",
 			"name": "CodeLens (Launch) - JSyntaxTree",
 			"request": "launch",
 			"mainClass": "JSyntaxTree"

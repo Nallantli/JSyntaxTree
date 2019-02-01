@@ -38,10 +38,10 @@
 			[T'
 				[T -$PAST$]
 				[VP
-					[DP<<2,7 %t%^]
+					[DP^2,7 %t%^]
 					[V'
 						[V'
-							[V<<-2 sleep]
+							[V^-2 sleep]
 						]
 						[AP
 							[A'

@@ -3,7 +3,7 @@
   [TP
     [T -$PAST$]
     [VP
-      [V<<-1 generates]
+      [V^-1 generates]
       [NP 
         [Adj class-accepted] 
         [NP syntax trees^]

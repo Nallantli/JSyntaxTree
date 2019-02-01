@@ -6,17 +6,33 @@ import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import java.io.*;
+import java.util.*;
+import java.nio.charset.StandardCharsets;
+
 import syntax.JSyntaxTree;
+
+import javax.swing.undo.UndoManager;
 
 /**
  * Small GUI class so to offer a graphical way of selecting options
  */
 
-public class GUI extends Frame {
+public class GUI extends Frame implements ActionListener {
 	private TextField tfCount, ofn, on, fn, fs, sx, sy, lw;
+	private JTextArea main_box;
 	private Button btnReset, create;
 	String file_path = null;
 	String out_file = null;
+	JMenuItem undo, redo;  
+	UndoManager undoManager;
+
+	public void actionPerformed(ActionEvent e) {  
+		if(e.getSource()==undo)  
+			undoManager.undo();
+		if(e.getSource()==redo)
+			undoManager.redo();
+		}  
 
 	public GUI() {
 		addWindowListener(new WindowAdapter() {
@@ -24,11 +40,44 @@ public class GUI extends Frame {
 				System.exit(0);
 			}
 		});
+
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		JPanel full_win = new JPanel();
+		full_win.setLayout(new GridLayout(1, 2));
+		add(full_win);
+		JPanel mainj = new JPanel();
+		full_win.add(mainj);
+
+		JPanel menuHolder = new JPanel();
+		menuHolder.setLayout(new BoxLayout(menuHolder, BoxLayout.PAGE_AXIS));
+		main_box = new JTextArea(0, 20);
+		undoManager = new UndoManager();
+		main_box.getDocument().addUndoableEditListener(undoManager);
+
+		JScrollPane scroll = new JScrollPane(main_box);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		JMenuBar mb=new JMenuBar();
+		undo = new JMenuItem("Undo");
+		redo = new JMenuItem("Redo");
+		undo.addActionListener(this);
+		redo.addActionListener(this);
+		mb.add(undo);
+		mb.add(redo);
+		mb.setMaximumSize(mb.getPreferredSize());
+
+		main_box.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+		main_box.setTabSize(4);
+
+		menuHolder.add(mb);
+		menuHolder.add(scroll);
+		full_win.add(menuHolder);
+
+		mainj.setLayout(new BoxLayout(mainj, BoxLayout.PAGE_AXIS));
 
 		JPanel j1 = new JPanel();
 		j1.setLayout(new GridLayout(9, 2));
-		add(j1);
+		mainj.add(j1);
 
 		tfCount = new TextField("Select a file", 20);
 		tfCount.setEditable(false);
@@ -45,6 +94,22 @@ public class GUI extends Frame {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					tfCount.setText(chooser.getSelectedFile().getAbsolutePath());
 					file_path = chooser.getSelectedFile().getAbsolutePath();
+
+					String total = "";
+
+					try {
+						InputStream bytes = new FileInputStream(file_path);
+						Reader chars = new InputStreamReader(bytes, StandardCharsets.UTF_8);
+						BufferedReader br = new BufferedReader(chars);
+						String line;
+						while ((line = br.readLine()) != null)
+							total = total.concat(line) + "\n";
+						br.close();
+					} catch (IOException e) {
+						System.err.println("Error openning file: " + file_path);
+					}
+
+					main_box.setText(total);
 				}
 			}
 		});
@@ -101,7 +166,7 @@ public class GUI extends Frame {
 		j1.add(sScript);
 
 		create = new Button("BUILD");
-		add(create);
+		mainj.add(create);
 
 		JPanel f = new JPanel();
 		add(f);
@@ -109,8 +174,15 @@ public class GUI extends Frame {
 		create.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				String[] args = { "-i", file_path, "-o", out_file + "/" + on.getText() + ".png", "-f", fn.getText(), "-fs",
-						fs.getText(), "-sx", sx.getText(), "-sy", sy.getText(), "-l", lw.getText(),
+				try {
+					BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("TEMP.txt"), StandardCharsets.UTF_8));
+					bw.write(main_box.getText());
+					bw.close();
+				} catch (IOException e) {
+					System.err.println(e);
+				}
+				String[] args = { "-i", "TEMP.txt", "-o", out_file + "/" + on.getText() + ".png", "-f", fn.getText(),
+						"-fs", fs.getText(), "-sx", sx.getText(), "-sy", sy.getText(), "-l", lw.getText(),
 						(inColor.getState() ? "-c" : ""), (sScript.getState() ? "-a" : "") };
 				try {
 					f.removeAll();
@@ -118,11 +190,15 @@ public class GUI extends Frame {
 				} catch (Exception e) {
 					System.err.println(e);
 				}
+				f.repaint();
+				f.setSize(f.getPreferredSize());
+				f.setBackground(Color.white);
 				pack();
 			}
 		});
 
 		setTitle("Quick-and-dirty GUI");
+		scroll.setPreferredSize(scroll.getSize());
 		pack();
 		setVisible(true);
 		setResizable(false);
