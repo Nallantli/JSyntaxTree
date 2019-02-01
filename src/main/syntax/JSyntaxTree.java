@@ -98,7 +98,7 @@ public class JSyntaxTree extends JPanel {
         float strokeWeight = 3.0F;
         int border = 50;
         int spacingX = 50;
-        int spacingY = 200;
+        int spacingY = 150;
         String font_name = "Doulos SIL";
 
         if (getOption(args, "-o") != null)

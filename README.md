@@ -17,7 +17,7 @@ Syntax		Default		Desc
 -fs <INT>	48		font size
 -l <FLOAT>	3.0		stroke size (for the lines)
 -sx <INT>	50		spacing between adjacent nodes horizontally
--sy <INT>	200		spacing between adjacent nodes vertically
+-sy <INT>	150		spacing between adjacent nodes vertically
 -c		-		color the tree
 -q		-		quits right after generation - no preview window
 -b <INT>	50		adds padding around the tree

@@ -175,7 +175,7 @@ public class GUI extends Frame implements ActionListener {
 		j1.add(sx);
 
 		j1.add(new Label("Spacing Y"));
-		sy = new TextField("200", 20);
+		sy = new TextField("150", 20);
 		j1.add(sy);
 
 		j1.add(new Label("Line Width"));
