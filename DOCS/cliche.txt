@@ -1,0 +1,13 @@
+[S
+  [NP JSyntaxTree^]
+  [TP
+    [T +$PRS$]
+    [VP
+        [V^-1 produce]
+        [NP 
+          [NP arbori sintassi^]
+          [AdjP accettabili nella classe^]
+        ]
+    ]
+  ]
+]

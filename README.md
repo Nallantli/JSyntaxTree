@@ -2,15 +2,16 @@
 
 ![Output](/Examples/cliche.png)
 
-[Download Here](https://github.com/Agilulfulus/JSyntaxTree/releases/tag/1.0);
+[Download Here](https://github.com/Agilulfulus/JSyntaxTree/releases/tag/1.0)
 
 A small Java program to build syntax trees and morphology trees, according to how my current morphology class prescribes.
 
 Inspired by [yohasebe](https://github.com/yohasebe)'s [RSyntaxTree](https://github.com/yohasebe/rsyntaxtree), which came into frequent use, however I unfortunately was pressed to make something new as the features required for my class surpassed the capabilities his program.
 
-A basic means to run it can be found with `RUNGUI.bat`.
+_[Legge qui per informazione italiana](DOCS/LEGGEMI.md)_
 
 # CLI Options:
+
 ```
 Syntax		Default		Desc
 -i <STRING>	-		input file path (required)
@@ -54,7 +55,7 @@ This syntax makes three individual movement arrows going `1` element over, `2` e
 ...
 ```
 
-Having two numbers seperated by a comma indicates that the movement occurs at one of the parent nodes. Here with `^1,2` the syntax indicates that the movement goes `1` element to the left, and then rises to the node `2` parents above. In this way you may have end nodes with children (see [Examples/chomsky.txt](Examples/chomsky.txt)) for a working example).
+Having two numbers seperated by a comma indicates that the movement occurs at one of the parent nodes. Here with `^1,2` the syntax indicates that the movement goes `1` element to the left, and then rises to the node `2` parents above. In this way you may have end nodes with children (see [Examples/chomsky.txt](Examples/chomsky.txt) for a working example).
 
 As stated previously, negating the movement value will cause the arrow to reverse, so, let's say that one wished to indicate movement right-ward, they would they need to place the `^` operation on the 'end' node and use `-x` steps:
 
@@ -72,43 +73,43 @@ Generally just bracket notation, with some text effects:
 
 `[TYPE value 1\nvalue 2]`
 
-![](/Examples/SyntaxDemo/newline.png)
+![](/DOCS/SyntaxDemo/newline.png)
 
 `_WORDS_` subscript
 
 `[TYPE_SUBTYPE_]`
 
-![](/Examples/SyntaxDemo/subscript.png)
+![](/DOCS/SyntaxDemo/subscript.png)
 
 `*WORDS*` bold
 
 `[TYPE *value*]`
 
-![](/Examples/SyntaxDemo/bold.png)
+![](/DOCS/SyntaxDemo/bold.png)
 
 `%WORDS%` italic
 
 `[TYPE %value%]`
 
-![](/Examples/SyntaxDemo/italic.png)
+![](/DOCS/SyntaxDemo/italic.png)
 
 `$WORDS$` smaller font
 
 `[TYPE BIG$SMALL$]`
 
-![](/Examples/SyntaxDemo/small.png)
+![](/DOCS/SyntaxDemo/small.png)
 
 `@WORDS@` underline
 
 `[TYPE @value@]`
 
-![](/Examples/SyntaxDemo/underline.png)
+![](/DOCS/SyntaxDemo/underline.png)
 
 `#WORDS#` highlight
 
 `[TYPE #value#]`
 
-![](/Examples/SyntaxDemo/highlight.png)
+![](/DOCS/SyntaxDemo/highlight.png)
 
 At the end of a node, i.e. the `@` in `[N value value@]` you may place these additions to determine what the connecting bar should be:
 
@@ -116,13 +117,13 @@ At the end of a node, i.e. the `@` in `[N value value@]` you may place these add
 
 `[TYPE value^]`
 
-![](/Examples/SyntaxDemo/triangle.png)
+![](/DOCS/SyntaxDemo/triangle.png)
 
 `|`	full bar
 
 `[TYPE value|]`
 
-![](/Examples/SyntaxDemo/bar.png)
+![](/DOCS/SyntaxDemo/bar.png)
 
 If you need to have multiple words in a token, use the ` around the words.
 
