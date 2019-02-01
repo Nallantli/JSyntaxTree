@@ -96,7 +96,6 @@ public class DrawTree {
         
         if (n.raises.length > 0) {
             for (int i = 0; i < n.raises.length; i++) {
-                System.out.println("Move:\t" + n.raises[i] + "\t" + n.raisesSUB[i]);
                 Node end = n;
                 for (int j = 0; j < Math.abs(n.raises[i]); j++)
                     end = end.getNeighborLeft();
@@ -116,24 +115,30 @@ public class DrawTree {
     public void drawMovement(Node start, Node end, Graphics2D g2, boolean inOut) {
         int shiftY = 0;
         Node max_current = end;
-        int depth_max = end.getTotalY(this) + end.getDepth(this);
+        int depth_max = 0;
+        if (end.subNodes.isEmpty())
+            depth_max = end.getTotalY(this) + end.getDepth(this);
         Node current = start;
-        while (current != end) {
-            if (depth_max < current.getTotalY(this) + current.getDepth(this)) {
-                depth_max = current.getTotalY(this) + current.getDepth(this);
-                max_current = current;
-            }
-            Node c2 = current;
-            boolean b = false;
-            while (c2 != null) {
-                if (c2 == end){
-                    b = true;
-                    break;
+
+        if (!end.subNodes.isEmpty()) {
+            boolean crossed = false;
+            while (!crossed || (crossed && current.hasAncestor(end))) {
+                if (depth_max < current.getTotalY(this) + current.getDepth(this)) {
+                    depth_max = current.getTotalY(this) + current.getDepth(this);
+                    max_current = current;
                 }
-                c2 = c2.parent;
+                if (!crossed && current.hasAncestor(end))
+                    crossed = true;
+                current = current.getNeighborLeft();
             }
-            if (b) break;
-            current = current.getNeighborLeft();
+        } else {
+            while (current != end) {
+                if (depth_max < current.getTotalY(this) + current.getDepth(this)) {
+                    depth_max = current.getTotalY(this) + current.getDepth(this);
+                    max_current = current;
+                }
+                current = current.getNeighborLeft();
+            }
         }
 
         shiftY = max_current.passes * fontSize / 2;

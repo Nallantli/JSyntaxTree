@@ -135,4 +135,12 @@ public class Node {
 		for (Node n : subNodes)
 			n.resetPasses();
 	}
+
+	public boolean hasAncestor(Node n) {
+		if (parent == n)
+			return true;
+		else if (parent != null)
+			return parent.hasAncestor(n);
+		return false;
+	}
 }
