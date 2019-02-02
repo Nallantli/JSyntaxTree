@@ -70,10 +70,10 @@ public class DrawTree {
                 g2.setStroke(stroke);
                 if (in_color)
                     g2.setPaint(Color.BLACK);
-                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) font.getSize2D() / 1.25),
+                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) font.getSize2D()),
                         center_x - n.getWidth(this) / 2 + spacingX / 2,
                         _y + spacingY - (int) ((float) font.getSize2D() / 1.25)));
-                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) font.getSize2D() / 1.25),
+                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) font.getSize2D()),
                         center_x + n.getWidth(this) / 2 - spacingX / 2,
                         _y + spacingY - (int) ((float) font.getSize2D() / 1.25)));
                 g2.draw(new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2,
@@ -87,7 +87,7 @@ public class DrawTree {
                 g2.setStroke(stroke);
                 if (in_color)
                     g2.setPaint(Color.BLACK);
-                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) font.getSize2D() / 1.25), center_x,
+                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) font.getSize2D()), center_x,
                         _y + spacingY - (int) ((float) font.getSize2D() / 1.25)));
                 if (in_color)
                     g2.setPaint(Color.DARK_GRAY);
@@ -106,7 +106,7 @@ public class DrawTree {
                 g2.setPaint(Color.BLACK);
             avg_x = (x_vals.get(0) + x_vals.get(x_vals.size() - 1)) / 2;
             for (int x : x_vals) {
-                g2.draw(new Line2D.Float(avg_x, _y + (int) ((float) font.getSize2D() / 1.25), x,
+                g2.draw(new Line2D.Float(avg_x, _y + (int) ((float) font.getSize2D()), x,
                         _y + spacingY - (int) ((float) font.getSize2D() / 1.25)));
             }
         }
@@ -237,12 +237,28 @@ public class DrawTree {
     }
 
     public AttributedString getTrig(String text) {
-        String s = text.replaceAll("\\_", "");
-        s = s.replaceAll("\\*", "");
-        s = s.replaceAll("\\%", "");
-        s = s.replaceAll("\\$", "");
-        s = s.replaceAll("\\@", "");
-        s = s.replaceAll("\\#", "");
+        String s = text;
+        s = s.replaceAll("([^?=\\\\])\\_", "$1");
+        s = s.replaceAll("^\\_", "");
+        s = s.replaceAll("([^?=\\\\])\\*", "$1");
+        s = s.replaceAll("^\\*", "");
+        s = s.replaceAll("([^?=\\\\])\\%", "$1");
+        s = s.replaceAll("^\\%", "");
+        s = s.replaceAll("([^?=\\\\])\\$", "$1");
+        s = s.replaceAll("^\\$", "");
+        s = s.replaceAll("([^?=\\\\])\\@", "$1");
+        s = s.replaceAll("^\\@", "");
+        s = s.replaceAll("([^?=\\\\])\\#", "$1");
+        s = s.replaceAll("^\\#", "");
+
+        s = s.replaceAll("\\\\\\_", "_");
+        s = s.replaceAll("\\\\\\*", "*");
+        s = s.replaceAll("\\\\\\%", "%");
+        s = s.replaceAll("\\\\\\$", "\\$");
+        s = s.replaceAll("\\\\\\@", "@");
+        s = s.replaceAll("\\\\\\#", "#");
+        s = s.replaceAll("\\\\\\\\", "\\\\");
+
         AttributedString trig = new AttributedString(s);
         trig.addAttribute(TextAttribute.FAMILY, font.getFamily());
         trig.addAttribute(TextAttribute.SIZE, font.getSize());
@@ -254,21 +270,21 @@ public class DrawTree {
         boolean und = false;
         boolean green = false;
         int b = 0;
+        char prev = 0;
         for (int i = 0; i < text.length(); i++) {
-
-            if (text.charAt(i) == '_') {
+            if (prev != '\\' && text.charAt(i) == '_') {
                 sub = !sub;
-            } else if (text.charAt(i) == '*') {
+            } else if (prev != '\\' && text.charAt(i) == '*') {
                 bold = !bold;
-            } else if (text.charAt(i) == '%') {
+            } else if (prev != '\\' && text.charAt(i) == '%') {
                 ital = !ital;
-            } else if (text.charAt(i) == '$') {
+            } else if (prev != '\\' && text.charAt(i) == '$') {
                 smal = !smal;
-            } else if (text.charAt(i) == '@') {
+            } else if (prev != '\\' && text.charAt(i) == '@') {
                 und = !und;
-            } else if (text.charAt(i) == '#') {
+            } else if (prev != '\\' && text.charAt(i) == '#') {
                 green = !green;
-            } else {
+            } else if (text.charAt(i) != '\\' || (prev == '\\' && text.charAt(i) == '\\')) {
                 if (s.length() <= b)
                     continue;
                 if (sub)
@@ -285,6 +301,7 @@ public class DrawTree {
                     trig.addAttribute(TextAttribute.SWAP_COLORS, TextAttribute.SWAP_COLORS_ON, b, b + 1);
                 b++;
             }
+            prev = text.charAt(i);
         }
 
         if (sub || bold || ital || smal || und || green)

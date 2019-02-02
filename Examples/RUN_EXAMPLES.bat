@@ -6,3 +6,4 @@ java -jar JSyntaxTree.jar -i Examples/troiae_ab_oris.txt -o Examples/troiae_ab_o
 java -jar JSyntaxTree.jar -i Examples/carnie.txt -o Examples/carnie.png -q
 java -jar JSyntaxTree.jar -i Examples/jpn.txt -o Examples/jpn.png -f "Unifont" -q -c
 java -jar JSyntaxTree.jar -i Examples/chomsky.txt -o Examples/chomsky.png -q -a
+java -jar JSyntaxTree.jar -i Examples/dante.txt -o Examples/dante.png -q

@@ -1,0 +1,46 @@
+[PP
+	[P'
+		[P ne]
+		[DP_MASC_
+			[D_MASC_'
+				[D_MASC_^1 l]
+				[NP_MASC_
+					[N_MASC_'
+						[N_MASC_
+							[N_MASC_^1 cammin|]
+							[\0^-1 $*+MASC*$]
+						]
+						[PP
+							[P'
+								[P di]
+								[DP_FEM_
+									[D_FEM_'
+										[D_FEM_ nostr]
+										[NP_FEM_
+											[N_FEM_'
+												[AdjP_FEM_
+													[Adj_FEM_'
+														[Adj_FEM_
+															[Adj^1 %t%|]
+															[%a% $*+FEM*$]
+														]
+													]
+												]
+												[N_FEM_'
+													[N_FEM_
+														[N_FEM_^1 vit|]
+														[%a%^-1 $*+FEM*$]
+													]
+												]
+											]
+										]
+									]
+								]
+							]
+						]
+					]
+				]
+			]
+		]
+	]
+]

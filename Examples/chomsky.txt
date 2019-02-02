@@ -7,7 +7,7 @@
 					[AdjP
 						[Adj'
 							[Adj
-								[N color]
+								[N color|]
 								[%less% 
 									$*QUALITY*$\n
 									$In = N$\n
@@ -22,11 +22,9 @@
 							[NP
 								[N'
 									[N
-										[N idea]
+										[N idea|]
 										[%s%
-											$*PLURAL*$\n
-											$In = N$\n
-											$Out = N$
+											$*+PLURAL*$
 										]
 									]
 								]
@@ -47,10 +45,10 @@
 							[A'
 								[A
 									[Adj
-										[N furi\n$%fury%$]
+										[N furi\n$%fury%$|]
 										[%ous%
 											$*QUALITY*$\n
-											$In = N$
+											$In = N$\n
 											$Out = Adj$
 										]
 									]

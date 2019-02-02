@@ -4,11 +4,9 @@
 				[NP_FEM_
 					[N_FEM_'
 						[N_FEM_
-							[N_FEM_ troi]
+							[N_FEM_ troi|]
 							[%t%
-								$*GENITIVE*$\n
-								$In = N$\n
-								$Out = N$
+								$*+GENITIVE*$
 							]
 						]
 					]
@@ -23,17 +21,15 @@
 					[NP_MASC_
 						[N_MASC_'
 							[N_MASC_
-								[N_MASC_ or]
+								[N_MASC_ or|]
 								[%is%
-									$*ABLATIVE*$\n
-									$In = N$\n
-									$Out = N$
+									$*+ABLATIVE*$
 								]
 							]
 						]
 					]
 				]
-				[DP_FEM_^4,2 %t%]
+				[DP_FEM_^4,2 %t%^]
 			]
 		]
 	]

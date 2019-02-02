@@ -12,7 +12,7 @@
 						[V 
 							driv\n
 							$drive$
-						]
+						|]
 						[%ing%
 							$*GERUND*$\n
 							$In = V$\n
