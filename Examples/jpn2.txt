@@ -1,0 +1,36 @@
+[CP
+	[DP_TOP_
+		[D_TOP_'
+			[NP
+				[N'
+					[N
+						[N パーク|]
+						[%さん% $*+HONORIFIC*$]
+					]
+				]
+			]
+			[D_TOP_ は]
+		]
+	]
+	[C'
+		[TP
+			[DP_NOM_
+				[D_NOM_'
+					[NP 頭^]
+					[D_NOM_ が]
+				]
+			]
+			[T'
+				[VP
+					[DP_NOM_^1,2 %t%^]
+					[V'
+						[AdjP %t%^]
+						[V^-1 いい]
+					]
+				]
+				[T^1 $*+PRS*$]
+			]
+		]
+		[C ね]
+	]
+]

@@ -67,7 +67,7 @@ As stated previously, negating the movement value will cause the arrow to revers
 
 # Text Syntax
 
-Generally just bracket notation, with some text effects:
+Generally just [bracket notation](DOCS/IntroductionToBracketNotation.md), with some text effects:
 
 `\n` newline
 
