@@ -12,7 +12,9 @@ Bracket Notation is so-called because it uses brackets: `[` and `]`. The data be
 
 Note that within the brackets there are two identifiable elements, the `N` and `world`, separated by a space. Bracket Notation suggests that each node have a label, this being the first element right following the first bracket - and that it have some value, this being all the writing that follows (including subsequent spaces) the space after the label.
 
+```
 [N White House]
+```
 
 Here, even though `White` and `House` are separated with a space, LBN treats them as a single entity, since they follow the label declared as `N`. It may be easier to consider the LBN as an algorithm that takes text between brackets and splits the text at the first space, making two strings of `"N"` and `"White House"` i.e. `["N", "White House"]`.
 

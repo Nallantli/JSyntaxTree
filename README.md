@@ -135,7 +135,7 @@ The program defaults to the Doulos SIL font (https://software.sil.org/doulos/), 
 
 Will build web interface at some point?
 
-Currently there's a shoddy GUI interface I built in like ten minutes but it works so if command lines scare you try that.
+Currently there's a shoddy GUI interface I built for those who don't want to use the command line.
 
 # Examples
 

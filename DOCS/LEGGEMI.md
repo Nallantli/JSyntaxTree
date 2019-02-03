@@ -6,7 +6,7 @@
 
 Questo è un programma minimale per aiutare nella construzione degl'alberi sintassi, con rilevanza alla classe mia morfologica.
 
-È basi del programma [RSyntaxTree](https://github.com/yohasebe/rsyntaxtree) da [yohasebe](https://github.com/yohasebe) - l'ho usato molto ma sfortunadamente diventava ch'è necessario di creare un nuovo cosa perche le caratteristiche volute aumentano sulle capabilità di suo programma.
+È basi del programma [RSyntaxTree](https://github.com/yohasebe/rsyntaxtree) da [yohasebe](https://github.com/yohasebe) - l'ho usato molto ma sfortunadamente diventava ch'è necessario di creare una nuova cosa perche le caratteristiche volute aumentano sulle capabilità di suo programma.
 
 # Opzioni CLI
 
@@ -60,3 +60,75 @@ Com'è detto previosamente, negare il valore movimento crearà una designazione 
 ```
 ...
 [NODO^-1,2 value]
+...
+```
+
+# Sintasso di Testo
+
+Generalmente [Labelled Bracket Notation](DOCS/IntroductionToBracketNotation.md), con un po' d'effetti per testi:
+
+`\n` newline
+
+`[TYPE value 1\nvalue 2]`
+
+![](/DOCS/SyntaxDemo/newline.png)
+
+`_WORDS_` subscript
+
+`[TYPE_SUBTYPE_]`
+
+![](/DOCS/SyntaxDemo/subscript.png)
+
+`*WORDS*` bold
+
+`[TYPE *value*]`
+
+![](/DOCS/SyntaxDemo/bold.png)
+
+`%WORDS%` italic
+
+`[TYPE %value%]`
+
+![](/DOCS/SyntaxDemo/italic.png)
+
+`$WORDS$` smaller font
+
+`[TYPE BIG$SMALL$]`
+
+![](/DOCS/SyntaxDemo/small.png)
+
+`@WORDS@` underline
+
+`[TYPE @value@]`
+
+![](/DOCS/SyntaxDemo/underline.png)
+
+`#WORDS#` highlight
+
+`[TYPE #value#]`
+
+![](/DOCS/SyntaxDemo/highlight.png)
+
+Alla fine d'un nodo, i.e. il `@` nel `[N value value@]`, è possibile di porre queste addizioni di determinare la forma del tratto connesso:
+
+`^` triangolo
+
+`[TYPE value^]`
+
+![](/DOCS/SyntaxDemo/triangle.png)
+
+`|`	un tratto attuale
+
+`[TYPE value|]`
+
+![](/DOCS/SyntaxDemo/bar.png)
+
+Se hai bisogno di più d'una parola nel segno, usa il ` vicino le parole.
+
+Senz'altro, tutte delle combinazioni sono accettabili.
+
+(e.g. `$*%_P_A_R_O_L_E_%*$`)
+
+Il programma usa per il font predefinito Duolos SIL (https://software.sil.org/doulos/), allora è necessario che hai scaricato questo. Non so il font predefinito usato per Java.
+
+Adesso esiste un GUI po' malo ho creato per l'uso di cui non vogliano usare il terminal.
