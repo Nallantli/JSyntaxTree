@@ -2,7 +2,7 @@
 
 ![Output](cliche.png)
 
-[Scarica qui](https://github.com/Agilulfulus/JSyntaxTree/releases/tag/1.0)
+[Scarica qui](https://github.com/Agilulfulus/JSyntaxTree/releases)
 
 Questo è un programma minimale per aiutare nella construzione degl'alberi sintassi, con rilevanza alla classe mia morfologica.
 

@@ -2,7 +2,7 @@
 
 ![Output](/Examples/cliche.png)
 
-[Download Here](https://github.com/Agilulfulus/JSyntaxTree/releases/tag/1.0)
+[Download Here](https://github.com/Agilulfulus/JSyntaxTree/releases)
 
 A small Java program to build syntax trees and morphology trees, according to how my current morphology class prescribes.
 
