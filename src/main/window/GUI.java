@@ -45,7 +45,7 @@ public class GUI extends Frame implements ActionListener {
 	private JTextArea main_box;
 	private Button btnReset, create;
 	String file_path = null;
-	String out_file = null;
+	String out_file = "./";
 	JMenuItem undo, redo;
 	UndoManager undoManager;
 

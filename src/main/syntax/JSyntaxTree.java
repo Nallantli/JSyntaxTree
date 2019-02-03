@@ -91,9 +91,12 @@ public class JSyntaxTree extends JPanel {
         if (filename == null) {
             throw new Exception("File not found!");
         }
+
+        String[] sp = filename.split("\\.");
+        String output_file = filename.substring(0, filename.length() - sp[sp.length - 1].length()) + "png";
+
         boolean in_color = false;
         boolean auto_subscript = false;
-        String output_file = "OUTPUT.png";
         int fontSize = 48;
         float strokeWeight = 3.0F;
         int border = 50;
