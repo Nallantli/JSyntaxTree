@@ -102,8 +102,6 @@ public class JSyntaxTree extends JPanel {
             String[] sp = filename.split("\\.");
             output_file = filename.substring(0, filename.length() - sp[sp.length - 1].length()) + "png";
         }
-        else if (getOption(args, "-o") == null)
-            throw new Exception("Output file not specified!");
 
         boolean in_color = false;
         boolean auto_subscript = false;
@@ -152,7 +150,8 @@ public class JSyntaxTree extends JPanel {
         }
 
         // Lastly, process the output file
-        save(output_file);
+        if (output_file != null)
+            save(output_file);
     }
 
     public static void main(String args[]) {
