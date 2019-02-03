@@ -88,12 +88,22 @@ public class JSyntaxTree extends JPanel {
     // generation
     public static void initialize(String args[], JPanel f) throws Exception {
         String filename = getOption(args, "-i");
+        String raw = null;
         if (filename == null) {
-            throw new Exception("File not found!");
-        }
+            if (getOption(args, "-r") != null) {
+                raw = getOption(args, "-r");
+            } else
+                throw new Exception("File not found!");
+        } else
+            raw = Interpreter.loadFile(filename);
 
-        String[] sp = filename.split("\\.");
-        String output_file = filename.substring(0, filename.length() - sp[sp.length - 1].length()) + "png";
+        String output_file = null;
+        if (filename != null) {
+            String[] sp = filename.split("\\.");
+            output_file = filename.substring(0, filename.length() - sp[sp.length - 1].length()) + "png";
+        }
+        else if (getOption(args, "-o") == null)
+            throw new Exception("Output file not specified!");
 
         boolean in_color = false;
         boolean auto_subscript = false;
@@ -125,7 +135,7 @@ public class JSyntaxTree extends JPanel {
 
         // Call the interpreter to read a file and
         // generate the parent node of the tree
-        Node NS = Interpreter.interpret(filename, auto_subscript);
+        Node NS = Interpreter.interpret(raw, auto_subscript);
 
         // Send the parameters specified in the
         // options to a new tree object

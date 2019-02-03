@@ -196,15 +196,7 @@ public class GUI extends Frame implements ActionListener {
 		create.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				try {
-					BufferedWriter bw = new BufferedWriter(
-							new OutputStreamWriter(new FileOutputStream("TEMP.txt"), StandardCharsets.UTF_8));
-					bw.write(main_box.getText());
-					bw.close();
-				} catch (IOException e) {
-					System.err.println(e);
-				}
-				String[] args = { "-i", "TEMP.txt", "-o", out_file + "/" + on.getText() + ".png", "-f", fn.getText(),
+				String[] args = { "-r", main_box.getText(), "-o", out_file + "/" + on.getText() + ".png", "-f", fn.getText(),
 						"-fs", fs.getText(), "-sx", sx.getText(), "-sy", sy.getText(), "-l", lw.getText(),
 						(inColor.getState() ? "-c" : ""), (sScript.getState() ? "-a" : "") };
 				try {

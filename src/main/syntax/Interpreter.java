@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class Interpreter {
-	public static Node interpret(String filename, boolean auto_subscript) {
+	public static String loadFile(String filename) {
 		String total = "";
 
 		try {
@@ -29,7 +29,10 @@ public class Interpreter {
 		}
 
 		total = total.replaceAll("\\\\0", "\u2205");
-
+		return total;
+	}
+	
+	public static Node interpret(String total, boolean auto_subscript) {
 		Stack<String> tokens = new Stack<String>();
 		tokens.push("");
 		int mode = 0;
