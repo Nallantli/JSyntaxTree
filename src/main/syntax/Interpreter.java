@@ -27,12 +27,11 @@ public class Interpreter {
 		} catch (IOException e) {
 			System.err.println("Error openning file: " + filename);
 		}
-
-		total = total.replaceAll("\\\\0", "\u2205");
 		return total;
 	}
 	
 	public static Node interpret(String total, boolean auto_subscript) {
+		total = total.replaceAll("\\\\0", "\u2205");
 		Stack<String> tokens = new Stack<String>();
 		tokens.push("");
 		int mode = 0;
