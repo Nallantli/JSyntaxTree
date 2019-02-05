@@ -2,6 +2,17 @@ package syntax;
 
 import java.util.ArrayList;
 
+enum MODE {
+	NONE_,
+	BAR_,
+	TRIANGLE_
+}
+
+enum BRACKET {
+	NO_BRACKET,
+	SQUARE_BRACKET
+}
+
 public class Node {
 	public String metadata;
 	public String value;
@@ -10,6 +21,8 @@ public class Node {
 	public int[] raises = new int[0];
 	public int[] raisesSUB = new int[0];
 	public int passes = 0;
+	public MODE mode = MODE.NONE_;
+	public BRACKET bracket = BRACKET.NO_BRACKET;
 
 	Node(String value) {
 		this.value = value;
@@ -44,7 +57,7 @@ public class Node {
 		}
 		if (subNodes.isEmpty()) {
 			depth += metadata.split("\\\\n").length * tree.getFontSize();
-			if (metadata.charAt(metadata.length() - 1) == '^' || metadata.charAt(metadata.length() - 1) == '|')
+			if (mode != MODE.NONE_)
 				depth += tree.getSpacingY();
 			else
 				depth += tree.getFontSize() * 1.5;
@@ -62,8 +75,6 @@ public class Node {
 			if (tree != null) {
 				int largest = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(value));
 				String[] arr = metadata.split("\\\\n");
-				if (metadata.charAt(metadata.length() - 1) == '^' || metadata.charAt(metadata.length() - 1) == '|')
-					arr = metadata.substring(0, metadata.length() - 1).split("\\\\n");
 				for (String s : arr) {
 					int temp = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(s));
 					if (largest < temp)

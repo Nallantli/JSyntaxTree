@@ -1,11 +1,11 @@
 [S
   [NP JSyntaxTree^]
   [TP
-    [T -$PAST$]
+    [T `[\-$PAST$]`]
     [VP
       [V^-1 generates]
       [NP 
-        [Adj class-accepted] 
+        [Adj class\-accepted] 
         [NP syntax trees^]
       ]
     ]

@@ -59,43 +59,44 @@ public class DrawTree {
             int x = _x;
             for (Node sub : n.subNodes) {
                 g2.setStroke(stroke);
-                // g2.draw(new Line2D.Float(center_x, _y + (int)((float)font.getSize2D() /
-                // 1.25), x + sub.getWidth(this) / 2, _y + spacingY -
-                // (int)((float)font.getSize2D() / 1.25)));
                 x_vals.add(paintNode(x, _y + spacingY, g2, sub));
                 x += sub.getWidth(this);
             }
         } else if (!n.metadata.isEmpty()) {
-            if (n.metadata.charAt(n.metadata.length() - 1) == '^') {
-                g2.setStroke(stroke);
-                if (in_color)
-                    g2.setPaint(Color.BLACK);
-                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) font.getSize2D()),
-                        center_x - n.getWidth(this) / 2 + spacingX / 2,
-                        _y + spacingY - (int) ((float) font.getSize2D() / 1.25)));
-                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) font.getSize2D()),
-                        center_x + n.getWidth(this) / 2 - spacingX / 2,
-                        _y + spacingY - (int) ((float) font.getSize2D() / 1.25)));
-                g2.draw(new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2,
-                        _y + spacingY - (int) ((float) font.getSize2D() / 1.25),
-                        center_x + n.getWidth(this) / 2 - spacingX / 2,
-                        _y + spacingY - (int) ((float) font.getSize2D() / 1.25)));
-                if (in_color)
-                    g2.setPaint(Color.DARK_GRAY);
-                drawCenteredString(center_x, _y + spacingY, g2, n.metadata.substring(0, n.metadata.length() - 1));
-            } else if (n.metadata.charAt(n.metadata.length() - 1) == '|') {
-                g2.setStroke(stroke);
-                if (in_color)
-                    g2.setPaint(Color.BLACK);
-                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) font.getSize2D()), center_x,
-                        _y + spacingY - (int) ((float) font.getSize2D() / 1.25)));
-                if (in_color)
-                    g2.setPaint(Color.DARK_GRAY);
-                drawCenteredString(center_x, _y + spacingY, g2, n.metadata.substring(0, n.metadata.length() - 1));
-            } else {
-                if (in_color)
-                    g2.setPaint(Color.DARK_GRAY);
-                drawCenteredString(center_x, (int) (_y + font.getSize2D() * 1.5), g2, n.metadata);
+            switch (n.mode) {
+                case TRIANGLE_:
+                    g2.setStroke(stroke);
+                    if (in_color)
+                        g2.setPaint(Color.BLACK);
+                    g2.draw(new Line2D.Float(center_x, _y + (int) ((float) fontSize),
+                            center_x - n.getWidth(this) / 2 + spacingX / 2,
+                            _y + spacingY - (int) ((float) fontSize / 1.25)));
+                    g2.draw(new Line2D.Float(center_x, _y + (int) ((float) fontSize),
+                            center_x + n.getWidth(this) / 2 - spacingX / 2,
+                            _y + spacingY - (int) ((float) fontSize / 1.25)));
+                    g2.draw(new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2,
+                            _y + spacingY - (int) ((float) fontSize / 1.25),
+                            center_x + n.getWidth(this) / 2 - spacingX / 2,
+                            _y + spacingY - (int) ((float) fontSize / 1.25)));
+                    if (in_color)
+                        g2.setPaint(Color.DARK_GRAY);
+                    drawCenteredString(center_x, _y + spacingY, g2, n.metadata);
+                    break;
+                case BAR_:
+                    g2.setStroke(stroke);
+                    if (in_color)
+                        g2.setPaint(Color.BLACK);
+                    g2.draw(new Line2D.Float(center_x, _y + fontSize, center_x,
+                            _y + spacingY - (int) ((float) fontSize / 1.25)));
+                    if (in_color)
+                        g2.setPaint(Color.DARK_GRAY);
+                    drawCenteredString(center_x, _y + spacingY, g2, n.metadata);
+                    break;
+                case NONE_:
+                    if (in_color)
+                        g2.setPaint(Color.DARK_GRAY);
+                    drawCenteredString(center_x, (int) (_y + fontSize * 1.5), g2, n.metadata);
+                    break;
             }
         }
 
@@ -106,8 +107,8 @@ public class DrawTree {
                 g2.setPaint(Color.BLACK);
             avg_x = (x_vals.get(0) + x_vals.get(x_vals.size() - 1)) / 2;
             for (int x : x_vals) {
-                g2.draw(new Line2D.Float(avg_x, _y + (int) ((float) font.getSize2D()), x,
-                        _y + spacingY - (int) ((float) font.getSize2D() / 1.25)));
+                g2.draw(new Line2D.Float(avg_x, _y + (int) ((float) fontSize), x,
+                        _y + spacingY - (int) ((float) fontSize / 1.25)));
             }
         }
 
@@ -175,8 +176,8 @@ public class DrawTree {
 
         int startX = start.getTotalX(this) - fontSize / 4;
         int endX = end.getTotalX(this) + fontSize / 4;
-        int startY = start.getTotalY(this) + start.getDepth(this);// + (int)((float)font.getSize2D() * 1.5);
-        int endY = end.getTotalY(this) + end.getDepth(this);// + (int)((float)font.getSize2D() * 1.5);
+        int startY = start.getTotalY(this) + start.getDepth(this);// + (int)((float)fontSize * 1.5);
+        int endY = end.getTotalY(this) + end.getDepth(this);// + (int)((float)fontSize * 1.5);
 
         if (in_color)
             g2.setPaint(Color.RED);
@@ -220,7 +221,7 @@ public class DrawTree {
         String[] arr = text.split("\\\\n");
         if (arr.length > 1) {
             for (int i = 0; i < arr.length; i++) {
-                drawCenteredString(_x, _y + i * (int) (font.getSize2D() * 1), g2, arr[i]);
+                drawCenteredString(_x, _y + i * (int) (fontSize), g2, arr[i]);
             }
             return;
         }
@@ -246,17 +247,20 @@ public class DrawTree {
         s = s.replaceAll("^\\%", "");
         s = s.replaceAll("([^?=\\\\])\\$", "$1");
         s = s.replaceAll("^\\$", "");
-        s = s.replaceAll("([^?=\\\\])\\@", "$1");
-        s = s.replaceAll("^\\@", "");
+        s = s.replaceAll("([^?=\\\\])\\-", "$1");
+        s = s.replaceAll("^\\-", "");
         s = s.replaceAll("([^?=\\\\])\\#", "$1");
         s = s.replaceAll("^\\#", "");
+        s = s.replaceAll("([^?=\\\\])\\=", "$1");
+        s = s.replaceAll("^\\=", "");
 
         s = s.replaceAll("\\\\\\_", "_");
         s = s.replaceAll("\\\\\\*", "*");
         s = s.replaceAll("\\\\\\%", "%");
         s = s.replaceAll("\\\\\\$", "\\$");
-        s = s.replaceAll("\\\\\\@", "@");
+        s = s.replaceAll("\\\\\\-", "\\-");
         s = s.replaceAll("\\\\\\#", "#");
+        s = s.replaceAll("\\\\\\=", "=");
         s = s.replaceAll("\\\\\\\\", "\\\\");
 
         AttributedString trig = new AttributedString(s);
@@ -269,6 +273,7 @@ public class DrawTree {
         boolean smal = false;
         boolean und = false;
         boolean green = false;
+        boolean strike = false;
         int b = 0;
         char prev = 0;
         for (int i = 0; i < text.length(); i++) {
@@ -280,10 +285,12 @@ public class DrawTree {
                 ital = !ital;
             } else if (prev != '\\' && text.charAt(i) == '$') {
                 smal = !smal;
-            } else if (prev != '\\' && text.charAt(i) == '@') {
+            } else if (prev != '\\' && text.charAt(i) == '-') {
                 und = !und;
             } else if (prev != '\\' && text.charAt(i) == '#') {
                 green = !green;
+            } else if (prev != '\\' && text.charAt(i) == '=') {
+                strike = !strike;
             } else if (text.charAt(i) != '\\' || (prev == '\\' && text.charAt(i) == '\\')) {
                 if (s.length() <= b)
                     continue;
@@ -299,13 +306,15 @@ public class DrawTree {
                     trig.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON, b, b + 1);
                 if (green)
                     trig.addAttribute(TextAttribute.SWAP_COLORS, TextAttribute.SWAP_COLORS_ON, b, b + 1);
+                if (strike)
+                    trig.addAttribute(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON, b, b + 1);
                 b++;
             }
             prev = text.charAt(i);
         }
 
-        if (sub || bold || ital || smal || und || green)
-            System.err.println("Warning: unclosed formatting\n" + text);
+        if (sub || bold || ital || smal || und || green || strike)
+            System.out.println("Warning: unclosed formatting\n" + text);
 
         return trig;
     }

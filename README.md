@@ -99,9 +99,9 @@ Generally just [bracket notation](DOCS/IntroductionToBracketNotation.md), with s
 
 ![](/DOCS/SyntaxDemo/small.png)
 
-`@WORDS@` underline
+`-WORDS-` underline
 
-`[TYPE @value@]`
+`[TYPE -value-]`
 
 ![](/DOCS/SyntaxDemo/underline.png)
 
@@ -110,6 +110,12 @@ Generally just [bracket notation](DOCS/IntroductionToBracketNotation.md), with s
 `[TYPE #value#]`
 
 ![](/DOCS/SyntaxDemo/highlight.png)
+
+`=WORDS=` strikethrough
+
+`[TYPE =value=]`
+
+![](/DOCS/SyntaxDemo/strike.png)
 
 At the end of a node, i.e. the `@` in `[N value value@]` you may place these additions to determine what the connecting bar should be:
 

@@ -15,8 +15,8 @@
 						|]
 						[%ing%
 							$*GERUND*$\n
-							$In = V$\n
-							$Out = Adj$
+							$In <- V$\n
+							$Out -> Adj$
 						]
 					]
 				]

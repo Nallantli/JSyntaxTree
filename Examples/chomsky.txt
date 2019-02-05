@@ -10,8 +10,8 @@
 								[N color|]
 								[%less% 
 									$*QUALITY*$\n
-									$In = N$\n
-									$Out = Adj$
+									$In <- N$\n
+									$Out -> Adj$
 								]
 							]
 						]
@@ -24,7 +24,7 @@
 									[N
 										[N idea|]
 										[%s%
-											$*+PLURAL*$
+											`[$*+PLURAL*$]`
 										]
 									]
 								]
@@ -34,7 +34,7 @@
 				]
 			]
 			[T'
-				[T -$PAST$]
+				[T `[\-$PAST$]`]
 				[VP
 					[DP^2,7 %t%^]
 					[V'
@@ -48,14 +48,14 @@
 										[N furi\n$%fury%$|]
 										[%ous%
 											$*QUALITY*$\n
-											$In = N$\n
-											$Out = Adj$
+											$In <- N$\n
+											$Out -> Adj$
 										]
 									]
 									[%ly%
 										$*ADVERBAL*$\n
-										$In = Adj$\n
-										$Out = A$
+										$In <- Adj$\n
+										$Out -> A$
 									]
 								]
 							]

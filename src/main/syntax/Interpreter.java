@@ -32,6 +32,15 @@ public class Interpreter {
 	
 	public static Node interpret(String total, boolean auto_subscript) {
 		total = total.replaceAll("\\\\0", "\u2205");
+
+		total = total.replaceAll("\\<\\-\\>", "\u2194");
+		total = total.replaceAll("\\-\\>", "\u2192");
+		total = total.replaceAll("\\<\\-", "\u2190");
+
+		total = total.replaceAll("\\<\\=\\>", "\u21d4");
+		total = total.replaceAll("\\=\\>", "\u21d2");
+		total = total.replaceAll("\\<\\=", "\u21d0");
+
 		Stack<String> tokens = new Stack<String>();
 		tokens.push("");
 		int mode = 0;
@@ -100,6 +109,20 @@ public class Interpreter {
 						else
 							f.raisesSUB[i - 1] = 0;
 					}
+				}
+
+				if (f.metadata.endsWith("^")) {
+					f.mode = MODE.TRIANGLE_;
+					f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
+				}
+				else if (f.metadata.endsWith("|")) {
+					f.mode = MODE.BAR_;
+					f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
+				}
+
+				if (f.value.startsWith("@")) {
+					f.bracket = BRACKET.SQUARE_BRACKET;
+					f.value = f.value.substring(1);
 				}
 
 				if (!instances.containsKey(f.value)) {
