@@ -1,5 +1,6 @@
 package syntax;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 enum MODE {
@@ -20,6 +21,10 @@ public class Node {
 	public int passes = 0;
 	public MODE mode = MODE.NONE_;
 	public BRACKET bracket = BRACKET.NO_BRACKET;
+	public Color color = Color.BLACK;
+	public Color connector_color = Color.BLACK;
+	public Color content_color = Color.BLACK;
+	public Color move_color = Color.BLACK;
 
 	Node(String value) {
 		this.value = value;

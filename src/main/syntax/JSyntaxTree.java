@@ -133,11 +133,11 @@ public class JSyntaxTree extends JPanel {
 
         // Call the interpreter to read a file and
         // generate the parent node of the tree
-        Node NS = Interpreter.interpret(raw, auto_subscript);
+        Node NS = Interpreter.interpret(raw, auto_subscript, in_color);
 
         // Send the parameters specified in the
         // options to a new tree object
-        tree = new DrawTree(NS, fontSize, spacingX, spacingY, border, font_name, in_color, strokeWeight);
+        tree = new DrawTree(NS, fontSize, spacingX, spacingY, border, font_name, strokeWeight);
 
         // If graphics is requested, let the tree
         // be drawn as a new panel

@@ -16,7 +16,6 @@ public class DrawTree {
     private int spacingX;
     private int spacingY;
     private int border;
-    private boolean in_color;
     private BasicStroke stroke;
     private Font font;
 
@@ -25,7 +24,7 @@ public class DrawTree {
 
     private Node NS;
 
-    public DrawTree(Node NS, int fontSize, int spacingX, int spacingY, int border, String font_name, boolean in_color,
+    public DrawTree(Node NS, int fontSize, int spacingX, int spacingY, int border, String font_name,
             float strokeWeight) {
         this.NS = NS;
         this.font = new Font(font_name, Font.PLAIN, fontSize);
@@ -33,7 +32,6 @@ public class DrawTree {
         this.spacingX = spacingX;
         this.spacingY = spacingY;
         this.border = border;
-        this.in_color = in_color;
         this.stroke = new BasicStroke(strokeWeight);
 
         height = NS.getDepth(this) + border * 2 + spacingY;
@@ -66,8 +64,7 @@ public class DrawTree {
             switch (n.mode) {
             case TRIANGLE_:
                 g2.setStroke(stroke);
-                if (in_color)
-                    g2.setPaint(Color.BLACK);
+                g2.setPaint(n.connector_color);
                 g2.draw(new Line2D.Float(center_x, _y + (int) ((float) fontSize),
                         center_x - n.getWidth(this) / 2 + spacingX / 2,
                         _y + spacingY - (int) ((float) fontSize / 1.25)));
@@ -77,23 +74,19 @@ public class DrawTree {
                 g2.draw(new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2,
                         _y + spacingY - (int) ((float) fontSize / 1.25), center_x + n.getWidth(this) / 2 - spacingX / 2,
                         _y + spacingY - (int) ((float) fontSize / 1.25)));
-                if (in_color)
-                    g2.setPaint(Color.DARK_GRAY);
+                g2.setPaint(n.content_color);
                 drawCenteredString(center_x, _y + spacingY, g2, n.metadata);
                 break;
             case BAR_:
                 g2.setStroke(stroke);
-                if (in_color)
-                    g2.setPaint(Color.BLACK);
+                g2.setPaint(n.connector_color);
                 g2.draw(new Line2D.Float(center_x, _y + fontSize, center_x,
                         _y + spacingY - (int) ((float) fontSize / 1.25)));
-                if (in_color)
-                    g2.setPaint(Color.DARK_GRAY);
+                g2.setPaint(n.content_color);
                 drawCenteredString(center_x, _y + spacingY, g2, n.metadata);
                 break;
             case NONE_:
-                if (in_color)
-                    g2.setPaint(Color.DARK_GRAY);
+                g2.setPaint(n.content_color);
                 drawCenteredString(center_x, (int) (_y + fontSize * 1.5), g2, n.metadata);
                 break;
             }
@@ -102,10 +95,10 @@ public class DrawTree {
         int avg_x = center_x;
 
         if (!x_vals.isEmpty()) {
-            if (in_color)
-                g2.setPaint(Color.BLACK);
             avg_x = (x_vals.get(0) + x_vals.get(x_vals.size() - 1)) / 2;
-            for (int x : x_vals) {
+            for (int i = 0; i < x_vals.size(); i++) {
+                int x = x_vals.get(i);
+                g2.setPaint(n.subNodes.get(i).connector_color);
                 g2.draw(new Line2D.Float(avg_x, _y + (int) ((float) fontSize), x,
                         _y + spacingY - (int) ((float) fontSize / 1.25)));
             }
@@ -128,8 +121,7 @@ public class DrawTree {
             }
         }
 
-        if (in_color)
-            g2.setPaint(Color.BLUE);
+        g2.setPaint(n.color);
         drawCenteredString(avg_x, _y, g2, n.value);
 
         return avg_x;
@@ -175,8 +167,10 @@ public class DrawTree {
         int startY = start.getTotalY(this) + start.getDepth(this);// + (int)((float)fontSize * 1.5);
         int endY = end.getTotalY(this) + end.getDepth(this);// + (int)((float)fontSize * 1.5);
 
-        if (in_color)
-            g2.setPaint(Color.RED);
+        if (inOut)
+            g2.setPaint(start.move_color);
+        else
+            g2.setPaint(end.move_color);
 
         if (!start.subNodes.isEmpty()) {
             g2.draw(new Line2D.Float(startX - start.getWidth(this) / 2, startY, startX - start.getWidth(this) / 2,
