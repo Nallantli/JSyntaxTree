@@ -193,8 +193,8 @@ public class GUI extends Frame implements ActionListener {
 		create.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				String[] args = { "-r", main_box.getText(), "-o", out_file + "/" + on.getText() + ".png", "-f", fn.getText(),
-						"-fs", fs.getText(), "-sx", sx.getText(), "-sy", sy.getText(), "-l", lw.getText(),
+				String[] args = { "-r", main_box.getText(), "-o", out_file + "/" + on.getText() + ".png", "-f",
+						fn.getText(), "-fs", fs.getText(), "-sx", sx.getText(), "-sy", sy.getText(), "-l", lw.getText(),
 						(inColor.getState() ? "-c" : ""), (sScript.getState() ? "-a" : "") };
 				try {
 					f.removeAll();

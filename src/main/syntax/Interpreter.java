@@ -29,7 +29,7 @@ public class Interpreter {
 		}
 		return total;
 	}
-	
+
 	public static Node interpret(String total, boolean auto_subscript) {
 		total = total.replaceAll("\\\\0", "\u2205");
 
@@ -114,8 +114,7 @@ public class Interpreter {
 				if (f.metadata.endsWith("^")) {
 					f.mode = MODE.TRIANGLE_;
 					f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
-				}
-				else if (f.metadata.endsWith("|")) {
+				} else if (f.metadata.endsWith("|")) {
 					f.mode = MODE.BAR_;
 					f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
 				}

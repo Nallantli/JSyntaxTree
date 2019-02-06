@@ -64,39 +64,38 @@ public class DrawTree {
             }
         } else if (!n.metadata.isEmpty()) {
             switch (n.mode) {
-                case TRIANGLE_:
-                    g2.setStroke(stroke);
-                    if (in_color)
-                        g2.setPaint(Color.BLACK);
-                    g2.draw(new Line2D.Float(center_x, _y + (int) ((float) fontSize),
-                            center_x - n.getWidth(this) / 2 + spacingX / 2,
-                            _y + spacingY - (int) ((float) fontSize / 1.25)));
-                    g2.draw(new Line2D.Float(center_x, _y + (int) ((float) fontSize),
-                            center_x + n.getWidth(this) / 2 - spacingX / 2,
-                            _y + spacingY - (int) ((float) fontSize / 1.25)));
-                    g2.draw(new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2,
-                            _y + spacingY - (int) ((float) fontSize / 1.25),
-                            center_x + n.getWidth(this) / 2 - spacingX / 2,
-                            _y + spacingY - (int) ((float) fontSize / 1.25)));
-                    if (in_color)
-                        g2.setPaint(Color.DARK_GRAY);
-                    drawCenteredString(center_x, _y + spacingY, g2, n.metadata);
-                    break;
-                case BAR_:
-                    g2.setStroke(stroke);
-                    if (in_color)
-                        g2.setPaint(Color.BLACK);
-                    g2.draw(new Line2D.Float(center_x, _y + fontSize, center_x,
-                            _y + spacingY - (int) ((float) fontSize / 1.25)));
-                    if (in_color)
-                        g2.setPaint(Color.DARK_GRAY);
-                    drawCenteredString(center_x, _y + spacingY, g2, n.metadata);
-                    break;
-                case NONE_:
-                    if (in_color)
-                        g2.setPaint(Color.DARK_GRAY);
-                    drawCenteredString(center_x, (int) (_y + fontSize * 1.5), g2, n.metadata);
-                    break;
+            case TRIANGLE_:
+                g2.setStroke(stroke);
+                if (in_color)
+                    g2.setPaint(Color.BLACK);
+                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) fontSize),
+                        center_x - n.getWidth(this) / 2 + spacingX / 2,
+                        _y + spacingY - (int) ((float) fontSize / 1.25)));
+                g2.draw(new Line2D.Float(center_x, _y + (int) ((float) fontSize),
+                        center_x + n.getWidth(this) / 2 - spacingX / 2,
+                        _y + spacingY - (int) ((float) fontSize / 1.25)));
+                g2.draw(new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2,
+                        _y + spacingY - (int) ((float) fontSize / 1.25), center_x + n.getWidth(this) / 2 - spacingX / 2,
+                        _y + spacingY - (int) ((float) fontSize / 1.25)));
+                if (in_color)
+                    g2.setPaint(Color.DARK_GRAY);
+                drawCenteredString(center_x, _y + spacingY, g2, n.metadata);
+                break;
+            case BAR_:
+                g2.setStroke(stroke);
+                if (in_color)
+                    g2.setPaint(Color.BLACK);
+                g2.draw(new Line2D.Float(center_x, _y + fontSize, center_x,
+                        _y + spacingY - (int) ((float) fontSize / 1.25)));
+                if (in_color)
+                    g2.setPaint(Color.DARK_GRAY);
+                drawCenteredString(center_x, _y + spacingY, g2, n.metadata);
+                break;
+            case NONE_:
+                if (in_color)
+                    g2.setPaint(Color.DARK_GRAY);
+                drawCenteredString(center_x, (int) (_y + fontSize * 1.5), g2, n.metadata);
+                break;
             }
         }
 
@@ -115,7 +114,6 @@ public class DrawTree {
         if (n.raises.length > 0) {
             for (int i = 0; i < n.raises.length; i++) {
                 Node end = n;
-                System.out.println("Moving: " + n.raises[i] + ", " + n.raisesSUB[i]);
                 for (int j = 0; j < Math.abs(n.raises[i]); j++) {
                     if (end == null)
                         System.err.println("Cannot find endnode!");
@@ -126,8 +124,6 @@ public class DrawTree {
                         System.err.println("Cannot find endnode!");
                     end = end.parent;
                 }
-                System.out.println(n);
-                System.out.println(end);
                 drawMovement(n, end, g2, n.raises[i] > 0);
             }
         }

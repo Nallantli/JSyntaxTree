@@ -1,13 +1,12 @@
 @echo off
 echo Generating *.class files...
-mkdir "bin"
-javac src/main/syntax/*.java src/main/window/*.java -d bin/
-cd "bin/"
+mkdir "temp"
+javac src/main/syntax/*.java src/main/window/*.java -d temp/
+cd "temp/"
 echo Generating JSyntaxTree.jar...
-jar -cvfe "JSyntaxTree.jar" syntax/JSyntaxTree syntax/*.class window/*.class
+jar -cvfe "../bin/JSyntaxTree.jar" syntax/JSyntaxTree syntax/*.class window/*.class
 echo Generating JSyntaxTreeGUI.jar...
-jar -cvfe "JSyntaxTreeGUI.jar" window/GUI syntax/*.class window/*.class
-echo Moving *.jar files to main index...
-move "JSyntaxTree.jar" "../"
-move "JSyntaxTreeGUI.jar" "../"
+jar -cvfe "../bin/JSyntaxTreeGUI.jar" window/GUI syntax/*.class window/*.class
+cd ".."
+rmdir /S /Q "temp"
 echo Done.

@@ -3,14 +3,11 @@ package syntax;
 import java.util.ArrayList;
 
 enum MODE {
-	NONE_,
-	BAR_,
-	TRIANGLE_
+	NONE_, BAR_, TRIANGLE_
 }
 
 enum BRACKET {
-	NO_BRACKET,
-	SQUARE_BRACKET
+	NO_BRACKET, SQUARE_BRACKET
 }
 
 public class Node {
