@@ -65,6 +65,35 @@ As stated previously, negating the movement value will cause the arrow to revers
 ...
 ```
 
+# Options
+
+Nodes can be given special parameters using `{}` brackets after the node name:
+
+```
+[TYPE {
+    content:"value";
+    color:"255,255,0";
+    line-color:"255,0,255";
+    content-color:"0,255,255";
+    move-color:"0,255,0";
+}]
+```
+
+Values can be applied to non-end nodes (without the `content` parameter, of course) likewise:
+
+```
+[TYPE
+    {
+        ...
+    }
+    [
+        ...
+    ]
+]
+```
+
+Options must come before sub-nodes.
+
 # Text Syntax
 
 Generally just [bracket notation](DOCS/IntroductionToBracketNotation.md), with some text effects:

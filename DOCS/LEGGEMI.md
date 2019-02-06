@@ -63,6 +63,35 @@ Com'è detto previosamente, negare il valore movimento crearà una designazione 
 ...
 ```
 
+# Opzioni
+
+Puoi mandare ai nodi parametri speciali se usai le `{}` parentesi dopo il nome del nodo:
+
+```
+[NODO {
+    content:"valore";
+    color:"255,255,0";
+    line-color:"255,0,255";
+    content-color:"0,255,255";
+    move-color:"0,255,0";
+}]
+```
+
+Puoi mandarli anche ai nodi che non sono alla fine (senza il parametro `content`, sicuro):
+
+```
+[NODO
+    {
+        ...
+    }
+    [
+        ...
+    ]
+]
+```
+
+Devi usare opzione prima della designazione dei sub-nodi.
+
 # Sintasso di Testo
 
 Generalmente [Labelled Bracket Notation](DOCS/IntroductionToBracketNotation.md), con un po' d'effetti per testi:
