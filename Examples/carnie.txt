@@ -1,7 +1,7 @@
 [TP
 	[DP Jean^]
 	[T'
-		[T `[\-$PAST$]`]
+		[|T \-$PAST$]
 		[VP
 			[V'
 				[V^-1 is^]

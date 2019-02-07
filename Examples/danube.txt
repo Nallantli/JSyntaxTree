@@ -30,7 +30,7 @@
 							driv\n
 							$drive$
 						|]
-						[%ing% {
+						[|%ing% {
 							color:"0,127,127";
 							line-color:"0,127,127";
 							content:"$*GERUND*$\n$In <- V$\n$Out -> Adj$";

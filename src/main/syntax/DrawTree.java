@@ -11,6 +11,12 @@ import java.awt.geom.Line2D;
 import java.text.AttributedString;
 import java.util.ArrayList;
 
+enum Alignment {
+    CENTER,
+    LEFT,
+    RIGHT
+}
+
 public class DrawTree {
     private int fontSize;
     private int spacingX;
@@ -61,6 +67,7 @@ public class DrawTree {
                 x += sub.getWidth(this);
             }
         } else if (!n.metadata.isEmpty()) {
+            int bracket_y = 0;
             switch (n.mode) {
             case TRIANGLE_:
                 g2.setStroke(stroke);
@@ -75,7 +82,8 @@ public class DrawTree {
                         _y + spacingY - (int) ((float) fontSize / 1.25), center_x + n.getWidth(this) / 2 - spacingX / 2,
                         _y + spacingY - (int) ((float) fontSize / 1.25)));
                 g2.setPaint(n.content_color);
-                drawCenteredString(center_x, _y + spacingY, g2, n.metadata);
+                drawAlignedString(center_x, _y + spacingY, g2, n.metadata, Alignment.CENTER);
+                bracket_y = _y + spacingY;
                 break;
             case BAR_:
                 g2.setStroke(stroke);
@@ -83,12 +91,38 @@ public class DrawTree {
                 g2.draw(new Line2D.Float(center_x, _y + fontSize, center_x,
                         _y + spacingY - (int) ((float) fontSize / 1.25)));
                 g2.setPaint(n.content_color);
-                drawCenteredString(center_x, _y + spacingY, g2, n.metadata);
+                drawAlignedString(center_x, _y + spacingY, g2, n.metadata, Alignment.CENTER);
+                bracket_y = _y + spacingY;
                 break;
             case NONE_:
                 g2.setPaint(n.content_color);
-                drawCenteredString(center_x, (int) (_y + fontSize * 1.5), g2, n.metadata);
+                drawAlignedString(center_x, (int) (_y + fontSize * 1.5), g2, n.metadata, Alignment.CENTER);
+                bracket_y = (int) (_y + fontSize * 1.5);
                 break;
+            }
+
+            if (n.bracket == BRACKET.SQUARE_BRACKET) {
+                switch (n.metadata.split("\\\\n").length){
+                    case 1:
+                        drawAlignedString(center_x - n.getWidth(this) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("[")) * 0.5), bracket_y, g2, "[", Alignment.LEFT);
+                        drawAlignedString(center_x + n.getWidth(this) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("]")) * 1), bracket_y, g2, "]", Alignment.LEFT);
+                        break;
+                    case 2:
+                        drawAlignedString(center_x - n.getWidth(this) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a1"))), bracket_y, g2, "\u23a1\\n\u23a3", Alignment.LEFT);
+                        drawAlignedString(center_x + n.getWidth(this) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a4")) * 2), bracket_y, g2, "\u23a4\\n\u23a6", Alignment.LEFT);
+                        break;
+                    default:
+                        String bl = "\u23a1\\n";
+                        String br = "\u23a4\\n";
+                        for (int i = 2; i < n.metadata.split("\\\\n").length; i++) {
+                            bl += "\u23a2\\n";
+                            br += "\u23a5\\n";
+                        }
+                        bl += "\u23a3\\n";
+                        br += "\u23a6\\n";
+                        drawAlignedString(center_x - n.getWidth(this) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a1"))), (int) (_y + fontSize * 1.5), g2, bl, Alignment.LEFT);
+                        drawAlignedString(center_x + n.getWidth(this) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a4")) * 2), (int) (_y + fontSize * 1.5), g2, br, Alignment.LEFT);
+                }
             }
         }
 
@@ -122,7 +156,7 @@ public class DrawTree {
         }
 
         g2.setPaint(n.color);
-        drawCenteredString(avg_x, _y, g2, n.value);
+        drawAlignedString(avg_x, _y, g2, n.value, Alignment.CENTER);
 
         return avg_x;
     }
@@ -207,11 +241,11 @@ public class DrawTree {
         }
     }
 
-    public void drawCenteredString(int _x, int _y, Graphics2D g2, String text) {
+    public void drawAlignedString(int _x, int _y, Graphics2D g2, String text, Alignment align) {
         String[] arr = text.split("\\\\n");
         if (arr.length > 1) {
             for (int i = 0; i < arr.length; i++) {
-                drawCenteredString(_x, _y + i * (int) (fontSize), g2, arr[i]);
+                drawAlignedString(_x, _y + i * (int) (fontSize), g2, arr[i], align);
             }
             return;
         }
@@ -223,6 +257,10 @@ public class DrawTree {
 
         FontMetrics metrics = g2.getFontMetrics(font);
         int x = _x - (int) (JSyntaxTree.GetWidthOfAttributedString(trig) / 2);
+        if (align == Alignment.LEFT)
+            x = _x;
+        if (align == Alignment.RIGHT)
+            x = _x - (int) (JSyntaxTree.GetWidthOfAttributedString(trig));
         int y = _y - ((metrics.getHeight()) / 2) + metrics.getAscent();
         g2.drawString(trig.getIterator(), x, y);
     }

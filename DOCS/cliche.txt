@@ -1,7 +1,7 @@
 [S
   [NP JSyntaxTree^]
   [TP
-    [T `[+$PRS$]`]
+    [|T +$PRS$]
     [VP
         [V^-1 produce]
         [NP 

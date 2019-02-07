@@ -38,6 +38,9 @@ public class Interpreter {
 		total = total.replaceAll("\\-\\>", "\u2192");
 		total = total.replaceAll("\\<\\-", "\u2190");
 
+		total = total.replaceAll("\\\\\\>", "\u27e9");
+		total = total.replaceAll("\\\\\\<", "\u27e8");
+
 		total = total.replaceAll("\\<\\=\\>", "\u21d4");
 		total = total.replaceAll("\\=\\>", "\u21d2");
 		total = total.replaceAll("\\<\\=", "\u21d0");
@@ -97,6 +100,11 @@ public class Interpreter {
 				Node f = stack.pop();
 				f.value = f.value.substring(2);
 
+				while (f.value.startsWith(" "))
+					f.value = f.value.substring(1);
+				while (f.value.endsWith(" "))
+					f.value = f.value.substring(0, f.value.length() - 1);
+
 				if (f.value.split("\\^").length > 1) {
 					String arr[] = f.value.split("\\^");
 					f.value = arr[0];
@@ -112,88 +120,91 @@ public class Interpreter {
 					}
 				}
 
-				while (f.value.startsWith(" "))
+				if (f.value.startsWith("|")) {
+					f.bracket = BRACKET.SQUARE_BRACKET;
 					f.value = f.value.substring(1);
-				while (f.metadata.startsWith(" "))
-					f.metadata = f.metadata.substring(1);
-				while (f.value.endsWith(" "))
-					f.value = f.value.substring(0, f.value.length() - 1);
-				while (f.metadata.endsWith(" "))
-					f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
-
-				if (f.metadata.endsWith("^")) {
-					f.mode = MODE.TRIANGLE_;
-					f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
-				} else if (f.metadata.endsWith("|")) {
-					f.mode = MODE.BAR_;
-					f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
-				}
-					
-				if (default_color) {
-					f.color = Color.BLUE;
-					f.content_color = Color.getHSBColor(0.33f, 1.0f, 0.5f);
-					f.connector_color = Color.BLACK;
-					f.move_color = Color.RED;
 				}
 
-				if (f.metadata.startsWith("{")) {
-					f.metadata = f.metadata.substring(1);
-					if (!f.metadata.endsWith("}"))
-						System.err.println("Unclosed options!\n" + f.metadata);
-					else
+				if (!f.metadata.isEmpty()) {
+					while (f.metadata.startsWith(" "))
+						f.metadata = f.metadata.substring(1);
+					while (f.metadata.endsWith(" "))
 						f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
-					String[] options = f.metadata.split("\\;(?:(?<=[\"]\\;)|(?=[\"]))");
-					HashMap<String, String> values = new HashMap<String, String>();
-					for (String op : options) {
-						String[] temp = op.split("\\:(?:(?<=[\"]\\:)|(?=[\"]))");
-						if (temp.length == 2) {
-							String key = temp[0];
-							String value = temp[1];
-							while (key.startsWith(" "))
-								key = key.substring(1);
-							while (value.startsWith(" "))
-								value = value.substring(1);
-							while (key.endsWith(" "))
-								key = key.substring(0, key.length() - 1);
-							while (value.endsWith(" "))
-								value = value.substring(0, value.length() - 1);
-							values.put(key, value.substring(1, value.length() - 1));
-						}
+
+					if (f.metadata.endsWith("^")) {
+						f.mode = MODE.TRIANGLE_;
+						f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
+					} else if (f.metadata.endsWith("|")) {
+						f.mode = MODE.BAR_;
+						f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
 					}
 
-					if (values.containsKey("content"))
-						f.metadata = values.get("content");
-					if (values.containsKey("color")) {
-						String[] c_vals = values.get("color").split("\\,");
-						int r = Integer.valueOf(c_vals[0]);
-						int g = Integer.valueOf(c_vals[1]);
-						int b = Integer.valueOf(c_vals[2]);
-						float[] hsb = Color.RGBtoHSB(r, g, b, null);
-						f.color = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+					if (default_color) {
+						f.color = Color.BLUE;
+						f.content_color = Color.getHSBColor(0.33f, 1.0f, 0.5f);
+						f.connector_color = Color.BLACK;
+						f.move_color = Color.RED;
 					}
-					if (values.containsKey("line-color")) {
-						String[] c_vals = values.get("line-color").split("\\,");
-						int r = Integer.valueOf(c_vals[0]);
-						int g = Integer.valueOf(c_vals[1]);
-						int b = Integer.valueOf(c_vals[2]);
-						float[] hsb = Color.RGBtoHSB(r, g, b, null);
-						f.connector_color = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
-					}
-					if (values.containsKey("content-color")) {
-						String[] c_vals = values.get("content-color").split("\\,");
-						int r = Integer.valueOf(c_vals[0]);
-						int g = Integer.valueOf(c_vals[1]);
-						int b = Integer.valueOf(c_vals[2]);
-						float[] hsb = Color.RGBtoHSB(r, g, b, null);
-						f.content_color = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
-					}
-					if (values.containsKey("move-color")) {
-						String[] c_vals = values.get("move-color").split("\\,");
-						int r = Integer.valueOf(c_vals[0]);
-						int g = Integer.valueOf(c_vals[1]);
-						int b = Integer.valueOf(c_vals[2]);
-						float[] hsb = Color.RGBtoHSB(r, g, b, null);
-						f.move_color = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+
+					if (f.metadata.startsWith("{")) {
+						f.metadata = f.metadata.substring(1);
+						if (!f.metadata.endsWith("}"))
+							System.err.println("Unclosed options!\n" + f.metadata);
+						else
+							f.metadata = f.metadata.substring(0, f.metadata.length() - 1);
+						String[] options = f.metadata.split("\\;(?:(?<=[\"]\\;)|(?=[\"]))");
+						HashMap<String, String> values = new HashMap<String, String>();
+						for (String op : options) {
+							String[] temp = op.split("\\:(?:(?<=[\"]\\:)|(?=[\"]))");
+							if (temp.length == 2) {
+								String key = temp[0];
+								String value = temp[1];
+								while (key.startsWith(" "))
+									key = key.substring(1);
+								while (value.startsWith(" "))
+									value = value.substring(1);
+								while (key.endsWith(" "))
+									key = key.substring(0, key.length() - 1);
+								while (value.endsWith(" "))
+									value = value.substring(0, value.length() - 1);
+								values.put(key, value.substring(1, value.length() - 1));
+							}
+						}
+
+						if (values.containsKey("content"))
+							f.metadata = values.get("content");
+						if (values.containsKey("color")) {
+							String[] c_vals = values.get("color").split("\\,");
+							int r = Integer.valueOf(c_vals[0]);
+							int g = Integer.valueOf(c_vals[1]);
+							int b = Integer.valueOf(c_vals[2]);
+							float[] hsb = Color.RGBtoHSB(r, g, b, null);
+							f.color = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+						}
+						if (values.containsKey("line-color")) {
+							String[] c_vals = values.get("line-color").split("\\,");
+							int r = Integer.valueOf(c_vals[0]);
+							int g = Integer.valueOf(c_vals[1]);
+							int b = Integer.valueOf(c_vals[2]);
+							float[] hsb = Color.RGBtoHSB(r, g, b, null);
+							f.connector_color = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+						}
+						if (values.containsKey("content-color")) {
+							String[] c_vals = values.get("content-color").split("\\,");
+							int r = Integer.valueOf(c_vals[0]);
+							int g = Integer.valueOf(c_vals[1]);
+							int b = Integer.valueOf(c_vals[2]);
+							float[] hsb = Color.RGBtoHSB(r, g, b, null);
+							f.content_color = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+						}
+						if (values.containsKey("move-color")) {
+							String[] c_vals = values.get("move-color").split("\\,");
+							int r = Integer.valueOf(c_vals[0]);
+							int g = Integer.valueOf(c_vals[1]);
+							int b = Integer.valueOf(c_vals[2]);
+							float[] hsb = Color.RGBtoHSB(r, g, b, null);
+							f.move_color = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+						}
 					}
 				}
 

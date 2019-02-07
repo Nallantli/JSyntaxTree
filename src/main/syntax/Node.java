@@ -58,7 +58,8 @@ public class Node {
 				depth = tent_depth;
 		}
 		if (subNodes.isEmpty()) {
-			depth += metadata.split("\\\\n").length * tree.getFontSize();
+			if (!metadata.isEmpty())
+				depth += metadata.split("\\\\n").length * tree.getFontSize();
 			if (mode != MODE.NONE_)
 				depth += tree.getSpacingY();
 			else
@@ -76,11 +77,13 @@ public class Node {
 		if (subNodes.isEmpty()) {
 			if (tree != null) {
 				int largest = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(value));
-				String[] arr = metadata.split("\\\\n");
-				for (String s : arr) {
-					int temp = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(s));
-					if (largest < temp)
-						largest = temp;
+				if (!metadata.isEmpty()) {
+					String[] arr = metadata.split("\\\\n");
+					for (String s : arr) {
+						int temp = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(s));
+						if (largest < temp)
+							largest = temp;
+					}
 				}
 				return largest + tree.getSpacingX();
 			}

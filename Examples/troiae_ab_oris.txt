@@ -5,7 +5,7 @@
 					[N_FEM_'
 						[N_FEM_
 							[N_FEM_ troi|]
-							[%t% `[$*+GENITIVE*$]`]
+							[|%t% +$GENITIVE$]
 						]
 					]
 				]
@@ -20,7 +20,7 @@
 						[N_MASC_'
 							[N_MASC_
 								[N_MASC_ or|]
-								[%is% `[$*+ABLATIVE*$]`]
+								[|%is% +$ABLATIVE$]
 							]
 						]
 					]

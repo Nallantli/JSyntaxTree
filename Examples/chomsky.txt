@@ -8,7 +8,7 @@
 						[Adj'
 							[Adj
 								[N color|]
-								[%less% 
+								[|%less% 
 									$*QUALITY*$\n
 									$In <- N$\n
 									$Out -> Adj$
@@ -23,9 +23,7 @@
 								[N'
 									[N
 										[N idea|]
-										[%s%
-											`[$*+PLURAL*$]`
-										]
+										[|%s% +$PLURAL$]
 									]
 								]
 							]
@@ -34,7 +32,7 @@
 				]
 			]
 			[T'
-				[T `[\-$PAST$]`]
+				[|T \-$PAST$]
 				[VP
 					[DP^2,7 %t%^]
 					[V'
@@ -46,13 +44,13 @@
 								[A
 									[Adj
 										[N furi\n$%fury%$|]
-										[%ous%
+										[|%ous%
 											$*QUALITY*$\n
 											$In <- N$\n
 											$Out -> Adj$
 										]
 									]
-									[%ly%
+									[|%ly%
 										$*ADVERBAL*$\n
 										$In <- Adj$\n
 										$Out -> A$

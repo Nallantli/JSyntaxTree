@@ -8,7 +8,7 @@
 					[N_MASC_'
 						[N_MASC_
 							[N_MASC_^1 cammin|]
-							[\0^-1 `[$*+MASC*$]`]
+							[|\0^-1 +$MASC$]
 						]
 						[PP
 							[P'
@@ -22,14 +22,14 @@
 													[Adj_FEM_'
 														[Adj_FEM_
 															[Adj^1 %t%|]
-															[%a% `[$*+FEM*$]`]
+															[|%a% +$FEM$]
 														]
 													]
 												]
 												[N_FEM_'
 													[N_FEM_
 														[N_FEM_^1 vit|]
-														[%a%^-1 `[$*+FEM*$]`]
+														[|%a%^-1 +$FEM$]
 													]
 												]
 											]
