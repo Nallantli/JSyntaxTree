@@ -41,7 +41,7 @@ public class DrawTree {
         this.stroke = new BasicStroke(strokeWeight);
 
         height = NS.getDepth(this) + border * 2 + spacingY;
-        width = NS.getWidth(this) + border * 2;
+        width = NS.getWidth(this, null) + border * 2;
     }
 
     public void paintStatic(Graphics2D g2) {
@@ -55,7 +55,7 @@ public class DrawTree {
     }
 
     public int paintNode(int _x, int _y, Graphics2D g2, Node n) {
-        int center_x = _x + n.getWidth(this) / 2;
+        int center_x = _x + n.getWidth(this, g2) / 2;
 
         ArrayList<Integer> x_vals = new ArrayList<Integer>();
 
@@ -64,7 +64,7 @@ public class DrawTree {
             for (Node sub : n.subNodes) {
                 g2.setStroke(stroke);
                 x_vals.add(paintNode(x, _y + spacingY, g2, sub));
-                x += sub.getWidth(this);
+                x += sub.getWidth(this, g2);
             }
         } else if (!n.metadata.isEmpty()) {
             int bracket_y = 0;
@@ -73,13 +73,13 @@ public class DrawTree {
                 g2.setStroke(stroke);
                 g2.setPaint(n.connector_color);
                 g2.draw(new Line2D.Float(center_x, _y + (int) ((float) fontSize),
-                        center_x - n.getWidth(this) / 2 + spacingX / 2,
+                        center_x - n.getWidth(this, g2) / 2 + spacingX / 2,
                         _y + spacingY - (int) ((float) fontSize / 1.25)));
                 g2.draw(new Line2D.Float(center_x, _y + (int) ((float) fontSize),
-                        center_x + n.getWidth(this) / 2 - spacingX / 2,
+                        center_x + n.getWidth(this, g2) / 2 - spacingX / 2,
                         _y + spacingY - (int) ((float) fontSize / 1.25)));
-                g2.draw(new Line2D.Float(center_x - n.getWidth(this) / 2 + spacingX / 2,
-                        _y + spacingY - (int) ((float) fontSize / 1.25), center_x + n.getWidth(this) / 2 - spacingX / 2,
+                g2.draw(new Line2D.Float(center_x - n.getWidth(this, g2) / 2 + spacingX / 2,
+                        _y + spacingY - (int) ((float) fontSize / 1.25), center_x + n.getWidth(this, g2) / 2 - spacingX / 2,
                         _y + spacingY - (int) ((float) fontSize / 1.25)));
                 g2.setPaint(n.content_color);
                 drawAlignedString(center_x, _y + spacingY, g2, n.metadata, Alignment.CENTER);
@@ -104,12 +104,12 @@ public class DrawTree {
             if (n.bracket == BRACKET.SQUARE_BRACKET) {
                 switch (n.metadata.split("\\\\n").length){
                     case 1:
-                        drawAlignedString(center_x - n.getWidth(this) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("[")) * 0.5), bracket_y, g2, "[", Alignment.LEFT);
-                        drawAlignedString(center_x + n.getWidth(this) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("]")) * 1), bracket_y, g2, "]", Alignment.LEFT);
+                        drawAlignedString(center_x - n.getWidth(this, g2) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("["), g2) * 0.5), bracket_y, g2, "[", Alignment.LEFT);
+                        drawAlignedString(center_x + n.getWidth(this, g2) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("]"), g2) * 1.5), bracket_y, g2, "]", Alignment.LEFT);
                         break;
                     case 2:
-                        drawAlignedString(center_x - n.getWidth(this) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a1"))), bracket_y, g2, "\u23a1\\n\u23a3", Alignment.LEFT);
-                        drawAlignedString(center_x + n.getWidth(this) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a4")) * 2), bracket_y, g2, "\u23a4\\n\u23a6", Alignment.LEFT);
+                        drawAlignedString(center_x - n.getWidth(this, g2) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a1"), g2) * 0.5), bracket_y, g2, "\u23a1\\n\u23a3", Alignment.LEFT);
+                        drawAlignedString(center_x + n.getWidth(this, g2) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a4"), g2) * 1.5), bracket_y, g2, "\u23a4\\n\u23a6", Alignment.LEFT);
                         break;
                     default:
                         String bl = "\u23a1\\n";
@@ -120,8 +120,8 @@ public class DrawTree {
                         }
                         bl += "\u23a3\\n";
                         br += "\u23a6\\n";
-                        drawAlignedString(center_x - n.getWidth(this) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a1"))), (int) (_y + fontSize * 1.5), g2, bl, Alignment.LEFT);
-                        drawAlignedString(center_x + n.getWidth(this) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a4")) * 2), (int) (_y + fontSize * 1.5), g2, br, Alignment.LEFT);
+                        drawAlignedString(center_x - n.getWidth(this, g2) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a1"), g2) * 0.5), (int) (_y + fontSize * 1.5), g2, bl, Alignment.LEFT);
+                        drawAlignedString(center_x + n.getWidth(this, g2) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a4"), g2) * 1.5), (int) (_y + fontSize * 1.5), g2, br, Alignment.LEFT);
                 }
             }
         }
@@ -196,8 +196,8 @@ public class DrawTree {
         max_current.passes++;
         depth_max += shiftY + fontSize;
 
-        int startX = start.getTotalX(this) - fontSize / 4;
-        int endX = end.getTotalX(this) + fontSize / 4;
+        int startX = start.getTotalX(this, g2) - fontSize / 4;
+        int endX = end.getTotalX(this, g2) + fontSize / 4;
         int startY = start.getTotalY(this) + start.getDepth(this);// + (int)((float)fontSize * 1.5);
         int endY = end.getTotalY(this) + end.getDepth(this);// + (int)((float)fontSize * 1.5);
 
@@ -207,20 +207,20 @@ public class DrawTree {
             g2.setPaint(end.move_color);
 
         if (!start.subNodes.isEmpty()) {
-            g2.draw(new Line2D.Float(startX - start.getWidth(this) / 2, startY, startX - start.getWidth(this) / 2,
+            g2.draw(new Line2D.Float(startX - start.getWidth(this, g2) / 2, startY, startX - start.getWidth(this, g2) / 2,
                     startY - fontSize / 2));
-            g2.draw(new Line2D.Float(startX + start.getWidth(this) / 2, startY, startX + start.getWidth(this) / 2,
+            g2.draw(new Line2D.Float(startX + start.getWidth(this, g2) / 2, startY, startX + start.getWidth(this, g2) / 2,
                     startY - fontSize / 2));
-            g2.draw(new Line2D.Float(startX - start.getWidth(this) / 2, startY, startX + start.getWidth(this) / 2,
+            g2.draw(new Line2D.Float(startX - start.getWidth(this, g2) / 2, startY, startX + start.getWidth(this, g2) / 2,
                     startY));
         }
 
         if (!end.subNodes.isEmpty()) {
-            g2.draw(new Line2D.Float(endX - end.getWidth(this) / 2, endY, endX - end.getWidth(this) / 2,
+            g2.draw(new Line2D.Float(endX - end.getWidth(this, g2) / 2, endY, endX - end.getWidth(this, g2) / 2,
                     endY - fontSize / 2));
-            g2.draw(new Line2D.Float(endX + end.getWidth(this) / 2, endY, endX + end.getWidth(this) / 2,
+            g2.draw(new Line2D.Float(endX + end.getWidth(this, g2) / 2, endY, endX + end.getWidth(this, g2) / 2,
                     endY - fontSize / 2));
-            g2.draw(new Line2D.Float(endX - end.getWidth(this) / 2, endY, endX + end.getWidth(this) / 2, endY));
+            g2.draw(new Line2D.Float(endX - end.getWidth(this, g2) / 2, endY, endX + end.getWidth(this, g2) / 2, endY));
         }
         // g2.draw(new QuadCurve2D.Float(startX, startY, (startX + endX) / 2, depth_max
         // + Math.max(spacingY, Math.abs(startY - endY)), endX, endY));
@@ -250,17 +250,14 @@ public class DrawTree {
             return;
         }
 
-        while (text.charAt(0) == ' ')
-            text = text.substring(1);
-
         AttributedString trig = getTrig(text);
 
         FontMetrics metrics = g2.getFontMetrics(font);
-        int x = _x - (int) (JSyntaxTree.GetWidthOfAttributedString(trig) / 2);
+        int x = _x - (int) (JSyntaxTree.GetWidthOfAttributedString(trig, g2) / 2);
         if (align == Alignment.LEFT)
             x = _x;
         if (align == Alignment.RIGHT)
-            x = _x - (int) (JSyntaxTree.GetWidthOfAttributedString(trig));
+            x = _x - (int) (JSyntaxTree.GetWidthOfAttributedString(trig, g2));
         int y = _y - ((metrics.getHeight()) / 2) + metrics.getAscent();
         g2.drawString(trig.getIterator(), x, y);
     }

@@ -47,9 +47,11 @@ public class JSyntaxTree extends JPanel {
 
     // Finds the length of a string having
     // undergone textual effects
-    public static double GetWidthOfAttributedString(AttributedString attributedString) {
+    public static double GetWidthOfAttributedString(AttributedString attributedString, Graphics2D g2) {
         AttributedCharacterIterator characterIterator = attributedString.getIterator();
         FontRenderContext fontRenderContext = new FontRenderContext(new AffineTransform(), true, true);
+        if (g2 != null)
+            fontRenderContext = g2.getFontRenderContext();
         LineBreakMeasurer lbm = new LineBreakMeasurer(characterIterator, fontRenderContext);
         TextLayout textLayout = lbm.nextLayout(Integer.MAX_VALUE);
         return textLayout.getBounds().getWidth();

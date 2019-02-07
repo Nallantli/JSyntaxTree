@@ -2,6 +2,7 @@ package syntax;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.awt.Graphics2D;
 
 enum MODE {
 	NONE_, BAR_, TRIANGLE_
@@ -69,18 +70,18 @@ public class Node {
 		return depth;
 	}
 
-	public int getWidth() {
-		return getWidth(null);
+	public int getWidth(Graphics2D g2) {
+		return getWidth(null, g2);
 	}
 
-	public int getWidth(DrawTree tree) {
+	public int getWidth(DrawTree tree, Graphics2D g2) {
 		if (subNodes.isEmpty()) {
 			if (tree != null) {
-				int largest = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(value));
+				int largest = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(value), g2);
 				if (!metadata.isEmpty()) {
 					String[] arr = metadata.split("\\\\n");
 					for (String s : arr) {
-						int temp = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(s));
+						int temp = (int) JSyntaxTree.GetWidthOfAttributedString(tree.getTrig(s), g2);
 						if (largest < temp)
 							largest = temp;
 					}
@@ -91,18 +92,18 @@ public class Node {
 		}
 		int width = 0;
 		for (Node n : subNodes)
-			width += n.getWidth(tree);
+			width += n.getWidth(tree, g2);
 		return width;
 	}
 
-	public int getTotalX(DrawTree tree) {
+	public int getTotalX(DrawTree tree, Graphics2D g2) {
 		int pos = 0;
 		Node n = getNeighborLeft();
 		while (n != null) {
-			pos += n.getWidth(tree);
+			pos += n.getWidth(tree, g2);
 			n = n.getNeighborLeft();
 		}
-		return pos + getWidth(tree) / 2 + tree.getBorder();
+		return pos + getWidth(tree, g2) / 2 + tree.getBorder();
 	}
 
 	public int getTotalY(DrawTree tree) {
