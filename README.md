@@ -1,6 +1,6 @@
 # JSyntaxTree
 
-![Output](/Examples/cliche.png)
+![Output](/Examples-RESULTS/cliche.png)
 
 [Download Here](https://github.com/Agilulfulus/JSyntaxTree/releases)
 
@@ -175,14 +175,14 @@ Currently there's a shoddy GUI interface I built for those who don't want to use
 # Examples
 
 1. Danube river steam ship driving company captain cabin door
-![danube](/Examples/danube.png)
+![danube](/Examples-RESULTS/danube.png)
 
 2. Troiae ab Oris
-![troiae_ab_oris](/Examples/troiae_ab_oris.png)
+![troiae_ab_oris](/Examples-RESULTS/troiae_ab_oris.png)
 
 3. Colorless green ideas sleep furiously
-![chompy](/Examples/chomsky.png)
+![chompy](/Examples-RESULTS/chomsky.png)
 
 4. あなたはユニコードの書物を使える
-![あなたはユニコードの書物を使える](/Examples/jpn.png)
+![あなたはユニコードの書物を使える](/Examples-RESULTS/jpn.png)
 If your font has the characters, you can use any unicode characters in data files. (This example uses Unifont)
