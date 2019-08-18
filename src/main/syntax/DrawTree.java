@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Line2D;
+import java.awt.geom.QuadCurve2D;
 import java.text.AttributedString;
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class DrawTree {
     private int border;
     private BasicStroke stroke;
     private Font font;
+	private boolean curved_movement;
 
     private int height;
     private int width;
@@ -31,7 +33,7 @@ public class DrawTree {
     private Node NS;
 
     public DrawTree(Node NS, int fontSize, int spacingX, int spacingY, int border, String font_name,
-            float strokeWeight) {
+            float strokeWeight, boolean curved_movement) {
         this.NS = NS;
         this.font = new Font(font_name, Font.PLAIN, fontSize);
         this.fontSize = fontSize;
@@ -39,6 +41,7 @@ public class DrawTree {
         this.spacingY = spacingY;
         this.border = border;
         this.stroke = new BasicStroke(strokeWeight);
+		this.curved_movement = curved_movement;
 
         height = NS.getDepth(this) + border * 2 + spacingY;
         width = NS.getWidth(this, null) + border * 2;
@@ -121,7 +124,30 @@ public class DrawTree {
                         bl += "\u23a3\\n";
                         br += "\u23a6\\n";
                         drawAlignedString(center_x - n.getWidth(this, g2) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a1"), g2) * 0.5), (int) (_y + fontSize * 1.5), g2, bl, Alignment.LEFT);
-                        drawAlignedString(center_x + n.getWidth(this, g2) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a4"), g2) * 1.5), (int) (_y + fontSize * 1.5), g2, br, Alignment.LEFT);
+                        drawAlignedString(center_x + n.getWidth(this, g2) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u23a4"), g2) * 1.25), (int) (_y + fontSize * 1.5), g2, br, Alignment.LEFT);
+                }
+            }
+            else if (n.bracket == BRACKET.PARENTHESIS) {
+                switch (n.metadata.split("\\\\n").length){
+                    case 1:
+                        drawAlignedString(center_x - n.getWidth(this, g2) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("["), g2) * 0.5), bracket_y, g2, "(", Alignment.LEFT);
+                        drawAlignedString(center_x + n.getWidth(this, g2) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("]"), g2) * 1.25), bracket_y, g2, ")", Alignment.LEFT);
+                        break;
+                    case 2:
+                        drawAlignedString(center_x - n.getWidth(this, g2) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u239b"), g2) * 0.5), bracket_y, g2, "\u239b\\n\u239d", Alignment.LEFT);
+                        drawAlignedString(center_x + n.getWidth(this, g2) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u239e"), g2) * 1.25), bracket_y, g2, "\u239e\\n\u23a0", Alignment.LEFT);
+                        break;
+                    default:
+                        String bl = "\u239b\\n";
+                        String br = "\u239e\\n";
+                        for (int i = 2; i < n.metadata.split("\\\\n").length; i++) {
+                            bl += "\u239c\\n";
+                            br += "\u239f\\n";
+                        }
+                        bl += "\u239d\\n";
+                        br += "\u23a0\\n";
+                        drawAlignedString(center_x - n.getWidth(this, g2) / 2 + (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u239b"), g2) * 0.5), (int) (_y + fontSize * 1.5), g2, bl, Alignment.LEFT);
+                        drawAlignedString(center_x + n.getWidth(this, g2) / 2 - (int)(JSyntaxTree.GetWidthOfAttributedString(getTrig("\u239e"), g2) * 1.25), (int) (_y + fontSize * 1.5), g2, br, Alignment.LEFT);
                 }
             }
         }
@@ -222,11 +248,14 @@ public class DrawTree {
                     endY - fontSize / 2));
             g2.draw(new Line2D.Float(endX - end.getWidth(this, g2) / 2, endY, endX + end.getWidth(this, g2) / 2, endY));
         }
-        // g2.draw(new QuadCurve2D.Float(startX, startY, (startX + endX) / 2, depth_max
-        // + Math.max(spacingY, Math.abs(startY - endY)), endX, endY));
-        g2.draw(new Line2D.Float(startX, startY + fontSize / 7, startX, depth_max));
-        g2.draw(new Line2D.Float(startX, depth_max, endX, depth_max));
-        g2.draw(new Line2D.Float(endX, endY + fontSize / 7, endX, depth_max));
+		
+		if (curved_movement)
+        	g2.draw(new QuadCurve2D.Float(startX, startY, (startX + endX) / 2, depth_max + Math.max(spacingY, Math.abs(startY - endY)), endX, endY));
+        else {
+			g2.draw(new Line2D.Float(startX, startY + fontSize / 7, startX, depth_max));
+        	g2.draw(new Line2D.Float(startX, depth_max, endX, depth_max));
+        	g2.draw(new Line2D.Float(endX, endY + fontSize / 7, endX, depth_max));
+		}
 
         if (inOut) {
             int[] x_points = { endX, endX - fontSize / 6, endX + fontSize / 6 };

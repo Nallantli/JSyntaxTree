@@ -9,7 +9,7 @@ enum MODE {
 }
 
 enum BRACKET {
-	NO_BRACKET, SQUARE_BRACKET
+	NO_BRACKET, SQUARE_BRACKET, PARENTHESIS
 }
 
 public class Node {

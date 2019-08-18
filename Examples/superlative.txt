@@ -1,0 +1,15 @@
+[A_SPRL_
+    [A_CMPR_
+        [A pretti|]
+        [|\0 
+            $*CMPR*$\n
+            $In <- A$\n
+            $Out -> A_CMPR_$
+        ]
+    ]
+    [|%est%
+        $*SPRL*$\n
+        $In <- A_CMPR_$\n
+        $Out -> A_SPRL_$
+    ]
+]

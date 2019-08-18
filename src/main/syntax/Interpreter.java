@@ -123,6 +123,9 @@ public class Interpreter {
 				if (f.value.startsWith("|")) {
 					f.bracket = BRACKET.SQUARE_BRACKET;
 					f.value = f.value.substring(1);
+				} else if (f.value.startsWith("(")) {
+					f.bracket = BRACKET.PARENTHESIS;
+					f.value = f.value.substring(1);
 				}
 
 				if (!f.metadata.isEmpty()) {

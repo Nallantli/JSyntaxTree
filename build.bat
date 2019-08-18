@@ -1,5 +1,4 @@
 @echo off
-echo Generating *.class files...
 mkdir "temp"
 javac src/main/syntax/*.java src/main/window/*.java -d temp/
 cd "temp/"
@@ -8,5 +7,6 @@ jar -cvfe "../bin/JSyntaxTree.jar" syntax/JSyntaxTree syntax/*.class window/*.cl
 echo Generating JSyntaxTreeGUI.jar...
 jar -cvfe "../bin/JSyntaxTreeGUI.jar" window/GUI syntax/*.class window/*.class
 cd ".."
-rmdir /S /Q "temp"
-echo Done.
+rmdir "temp" /s /q
+echo Done. 
+ 

@@ -107,11 +107,12 @@ public class JSyntaxTree extends JPanel {
 
         boolean in_color = false;
         boolean auto_subscript = false;
-        int fontSize = 48;
-        float strokeWeight = 3.0F;
-        int border = 50;
-        int spacingX = 50;
-        int spacingY = 150;
+		boolean curved_movement = false;
+        int fontSize = 26;
+        float strokeWeight = 1.5F;
+        int border = 25;
+        int spacingX = 25;
+        int spacingY = 75;
         String font_name = "Doulos SIL";
 
         if (getOption(args, "-o") != null)
@@ -120,6 +121,8 @@ public class JSyntaxTree extends JPanel {
             in_color = true;
         if (getOption(args, "-a") != null)
             auto_subscript = true;
+        if (getOption(args, "-cm") != null)
+            curved_movement = true;
         if (getOption(args, "-f") != null)
             font_name = getOption(args, "-f");
         if (getOption(args, "-fs") != null)
@@ -139,7 +142,7 @@ public class JSyntaxTree extends JPanel {
 
         // Send the parameters specified in the
         // options to a new tree object
-        tree = new DrawTree(NS, fontSize, spacingX, spacingY, border, font_name, strokeWeight);
+        tree = new DrawTree(NS, fontSize, spacingX, spacingY, border, font_name, strokeWeight, curved_movement);
 
         // If graphics is requested, let the tree
         // be drawn as a new panel
