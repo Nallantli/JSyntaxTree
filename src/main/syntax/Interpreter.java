@@ -44,6 +44,7 @@ public class Interpreter {
 		total = total.replaceAll("\\<\\=\\>", "\u21d4");
 		total = total.replaceAll("\\=\\>", "\u21d2");
 		total = total.replaceAll("\\<\\=", "\u21d0");
+		total = total.replaceAll("\\\\w", "\u3000");
 
 		Stack<String> tokens = new Stack<String>();
 		tokens.push("");
